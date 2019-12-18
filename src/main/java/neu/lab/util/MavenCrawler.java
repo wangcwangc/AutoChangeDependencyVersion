@@ -11,7 +11,7 @@ import java.util.List;
 
 public class MavenCrawler {
 
-    private static String mavenArtifactUrl = "https://mvnrepository.com/artifact/";
+    private static final String mavenArtifactUrl = "https://mvnrepository.com/artifact/";
 
     public static List<String> getVersionList(String groupId, String artifactId) {
         String artifactUrl = groupId + "/" + artifactId;
@@ -34,8 +34,8 @@ public class MavenCrawler {
     }
 
     public static void main(String[] args) {
-        String groupId = "org.junit.jupiter";
-        String artifactId = "junit-jupiter-api";
+        String groupId = "junit";
+        String artifactId = "junit";
         List<String> versionList = getVersionList(groupId, artifactId);
         for (String version : versionList) {
             System.out.println(version);

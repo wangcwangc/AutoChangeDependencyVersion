@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="neu.lab.data.dao.MavenArtifactMapper">
+    <resultMap id="BaseResultMap" type="MavenArtifact">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="artifactId" property="artifactId" jdbcType="VARCHAR"/>
+        <result column="groupId" property="groupId" jdbcType="VARCHAR"/>
+    </resultMap>
+    <select id="selectAllMavenArtifact" resultMap="BaseResultMap">
+        SELECT *
+        FROM mavenartifact
+    </select>
+</mapper>

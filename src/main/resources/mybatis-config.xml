@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    <!--调用database.properties文件-->
+    <properties resource="database.properties"></properties>
+    <!--类型别名-->
+    <typeAliases>
+        <typeAlias alias="MavenArtifact" type="neu.lab.data.po.MavenArtifact"></typeAlias>
+    </typeAliases>
+    <environments default="dvr">
+        <environment id="dvr">
+            <!--事务管理器  选择jdbc获取事务-->
+            <transactionManager type="JDBC"></transactionManager>
+            <!--数据源有POOLED 和UNPOLED可选择是否使用数据源-->
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"></property>
+                <property name="url" value="${jdbc.url}"></property>
+                <property name="username" value="${jdbc.username}"></property>
+                <property name="password" value="${jdbc.password}"></property>
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <!--mappers是映射器，把mapper文件加入到配置文件中-->
+        <mapper resource="mapper/MavenArtifactMapper.xml"></mapper>
+    </mappers>
+</configuration>

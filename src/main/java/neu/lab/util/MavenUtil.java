@@ -66,7 +66,7 @@ public class MavenUtil {
             return mojo.factory.createDependencyArtifact(groupId, artifactId,
                     VersionRange.createFromVersionSpec(versionRange), type, classifier, scope);
         } catch (InvalidVersionSpecificationException e) {
-            getLog().error("cant create Artifact!", e);
+            getLog().error("cant create MavenArtifact!", e);
             return null;
         }
     }
