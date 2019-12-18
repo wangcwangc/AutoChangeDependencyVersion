@@ -9,11 +9,26 @@ public class ArtifactVersion {
     private int priority;
     private int mavenArtifactId;
 
-    public ArtifactVersion(String version,int priority, int mavenArtifactId) {
+    public ArtifactVersion(String version, int priority, int mavenArtifactId) {
         this.version = version;
-//        this.major = major;
-//        this.minor = minor;
-//        this.patch = patch;
+        String[] versionSplit = version.split("\\.");
+        int length = versionSplit.length;
+        switch (length) {
+            case 1:
+                major = versionSplit[0];
+                break;
+            case 2:
+                major = versionSplit[0];
+                minor = versionSplit[1];
+                break;
+            case 3:
+                major = versionSplit[0];
+                minor = versionSplit[1];
+                patch = versionSplit[2];
+                break;
+            default:
+                major = version;
+        }
         this.priority = priority;
         this.mavenArtifactId = mavenArtifactId;
     }
