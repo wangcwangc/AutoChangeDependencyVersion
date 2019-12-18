@@ -2,12 +2,12 @@ package neu.lab.data.po;
 
 public class MavenArtifact {
     private int id;
-    private String artifactId;
     private String groupId;
+    private String artifactId;
 
-    public MavenArtifact(String artifactId, String groupId) {
-        this.artifactId = artifactId;
+    public MavenArtifact(String groupId, String artifactId) {
         this.groupId = groupId;
+        this.artifactId = artifactId;
     }
 
     public int getId() {
@@ -18,14 +18,6 @@ public class MavenArtifact {
         this.id = id;
     }
 
-    public String getArtifactId() {
-        return artifactId;
-    }
-
-    public void setArtifactId(String artifactId) {
-        this.artifactId = artifactId;
-    }
-
     public String getGroupId() {
         return groupId;
     }
@@ -34,12 +26,20 @@ public class MavenArtifact {
         this.groupId = groupId;
     }
 
+    public String getArtifactId() {
+        return artifactId;
+    }
+
+    public void setArtifactId(String artifactId) {
+        this.artifactId = artifactId;
+    }
+
     @Override
     public String toString() {
         return "MavenArtifact{" +
                 "id=" + id +
-                ", artifactId='" + artifactId + '\'' +
                 ", groupId='" + groupId + '\'' +
+                ", artifactId='" + artifactId + '\'' +
                 '}';
     }
 }

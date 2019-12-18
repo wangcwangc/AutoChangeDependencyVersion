@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface ArtifactVersionMapper {
     List<ArtifactVersion> selectAllArtifactVersionByMavenArtifactId(int mavenArtifactId);
+    void insertArtifactVersion(ArtifactVersion ArtifactVersion);
 }

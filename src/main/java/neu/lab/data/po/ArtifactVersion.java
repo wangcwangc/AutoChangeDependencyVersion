@@ -9,6 +9,15 @@ public class ArtifactVersion {
     private int priority;
     private int mavenArtifactId;
 
+    public ArtifactVersion(String version,int priority, int mavenArtifactId) {
+        this.version = version;
+//        this.major = major;
+//        this.minor = minor;
+//        this.patch = patch;
+        this.priority = priority;
+        this.mavenArtifactId = mavenArtifactId;
+    }
+
     public int getId() {
         return id;
     }

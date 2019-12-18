@@ -2,18 +2,23 @@ import neu.lab.data.dao.ArtifactVersionMapper;
 import neu.lab.data.dao.MavenArtifactMapper;
 import neu.lab.data.po.ArtifactVersion;
 import neu.lab.data.po.MavenArtifact;
+import neu.lab.util.MavenCrawler;
+import neu.lab.util.MybatisUtil;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MybatisTest {
     @Test
+    @Ignore
     public void test1() {
         String source = "mybatis-config.xml";
         SqlSession sqlSession = null;
@@ -41,6 +46,7 @@ public class MybatisTest {
     }
 
     @Test
+    @Ignore
     public void test2() {
         String source = "mybatis-config.xml";
         SqlSession sqlSession = null;
@@ -59,6 +65,20 @@ public class MybatisTest {
             }
         } catch (Exception e) {
             System.out.println(e);
+        }
+    }
+
+    @Test
+    @Ignore
+    public void test3(){
+        String groupId = "junit";
+        String artifactId = "junit";
+       MavenArtifact mavenArtifact =  MybatisUtil.createSqlSession().getMapper(MavenArtifactMapper.class).selectMavenArtifact("junit", "junit");
+        List<String> versionList = MavenCrawler.getVersionList(groupId, artifactId);
+        List<ArtifactVersion> artifactVersionList = new ArrayList<>();
+        int priority = versionList.size();
+        for (String version : versionList) {
+//artifactVersionList.add(new ArtifactVersion(version,priority--,))
         }
     }
 }

@@ -13,20 +13,20 @@
     <select id="selectMavenArtifact" resultType="MavenArtifact">
         SELECT *
         FROM maven_artifact
-        WHERE artifactId = #{arg0}
-        AND groupId = #{arg1}
+        WHERE groupId = #{arg0}
+        AND artifactId = #{arg1}
     </select>
     <select id="isExist" resultType="Integer">
         SELECT 1
         FROM maven_artifact
-        WHERE artifactId = #{arg0}
-        AND groupId = #{arg1}
+        WHERE groupId = #{arg0}
+        AND artifactId = #{arg1}
         Limit 1
     </select>
 
     <insert id="insertMavenArtifact" parameterType="MavenArtifact">
         INSERT INTO
-        maven_artifact(artifactId, groupId)
-        VALUES(#{artifactId}, #{groupId})
+        maven_artifact(groupId, artifactId)
+        VALUES(#{groupId}, #{artifactId})
     </insert>
 </mapper>

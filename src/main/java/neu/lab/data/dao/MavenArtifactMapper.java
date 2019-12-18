@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface MavenArtifactMapper {
     List<MavenArtifact> selectAllMavenArtifact();
-    int isExist(String artifactId,String groupId);
+    int isExist(String groupId, String artifactId);
     void insertMavenArtifact(MavenArtifact mavenArtifact);
-    MavenArtifact selectMavenArtifact(String artifactId, String groupId);
+    MavenArtifact selectMavenArtifact(String groupId, String artifactId);
 }
