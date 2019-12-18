@@ -99,10 +99,11 @@ public abstract class DependencyMojo extends AbstractMojo {
             run();
 
         } else {
-            this.getLog()
-                    .info("this project fail because package type is neither jar nor war:" + project.getGroupId() + ":"
-                            + project.getArtifactId() + ":" + project.getVersion() + "@"
-                            + project.getFile().getAbsolutePath());
+            this.getLog().info("this project fail because package type is neither jar nor war:"
+                    + project.getGroupId() + ":"
+                    + project.getArtifactId() + ":"
+                    + project.getVersion() + "@"
+                    + project.getFile().getAbsolutePath());
         }
         this.getLog().debug("method detect end");
 

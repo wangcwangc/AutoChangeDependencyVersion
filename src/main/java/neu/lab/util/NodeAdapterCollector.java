@@ -7,7 +7,7 @@ import org.apache.maven.shared.dependency.tree.DependencyNode;
 import org.apache.maven.shared.dependency.tree.traversal.DependencyNodeVisitor;
 
 import neu.lab.container.NodeAdapters;
-import neu.lab.conflict.vo.NodeAdapter;
+import neu.lab.vo.NodeAdapter;
 
 public class NodeAdapterCollector implements DependencyNodeVisitor {
     private static Set<String> longTimeLib;// lib that takes a long time to get call-graph.要花很长时间才能得到call-graph。
