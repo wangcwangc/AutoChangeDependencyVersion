@@ -7,6 +7,7 @@
     <!--类型别名-->
     <typeAliases>
         <typeAlias alias="MavenArtifact" type="neu.lab.data.po.MavenArtifact"></typeAlias>
+        <typeAlias alias="ArtifactVersion" type="neu.lab.data.po.ArtifactVersion"></typeAlias>
     </typeAliases>
     <environments default="dvr">
         <environment id="dvr">
@@ -24,5 +25,6 @@
     <mappers>
         <!--mappers是映射器，把mapper文件加入到配置文件中-->
         <mapper resource="mapper/MavenArtifactMapper.xml"></mapper>
+        <mapper resource="mapper/ArtifactVersionMapper.xml"></mapper>
     </mappers>
 </configuration>

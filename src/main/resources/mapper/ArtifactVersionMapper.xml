@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="neu.lab.data.dao.ArtifactVersionMapper">
+<!--    <resultMap id="BaseResultMap" type="ArtifactVersion">-->
+<!--        <id column="id" property="id" jdbcType="INTEGER"/>-->
+<!--        <result column="artifactId" property="artifactId" jdbcType="VARCHAR"/>-->
+<!--        <result column="groupId" property="groupId" jdbcType="VARCHAR"/>-->
+<!--    </resultMap>-->
+    <select id="selectAllArtifactVersionByMavenArtifactId" resultType="ArtifactVersion" parameterType="Integer">
+        SELECT *
+        FROM artifact_version
+        WHERE mavenArtifactId = #{mavenArtifactId}
+    </select>
+</mapper>
