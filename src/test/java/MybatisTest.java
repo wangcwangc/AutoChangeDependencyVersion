@@ -4,6 +4,7 @@ import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.InputStream;
@@ -24,10 +25,11 @@ public class MybatisTest {
             sqlSession = sqlSessionFactory.openSession();
             //4 根据放入工厂的sql语句执行不同的方法
 //            count = sqlSession.selectOne("com.bdqn.dao.TUserMapper.queryCount");
-            List<MavenArtifact> list=sqlSession.getMapper(MavenArtifactMapper.class).selectAllMavenArtifact();
-           for (MavenArtifact mavenArtifact:list){
-               System.out.println(mavenArtifact.toString());
-           }
+            List<MavenArtifact> list = sqlSession.getMapper(MavenArtifactMapper.class).selectAllMavenArtifact();
+            for (MavenArtifact mavenArtifact : list) {
+                System.out.println(mavenArtifact.toString());
+            }
+            System.out.println(sqlSession.getMapper(MavenArtifactMapper.class).isExist("org.slf4j", "slf4j-api"));
         } catch (Exception e) {
             System.out.println(e);
         }

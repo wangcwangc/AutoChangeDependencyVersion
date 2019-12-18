@@ -10,4 +10,11 @@
         SELECT *
         FROM mavenartifact
     </select>
+    <select id="isExist" resultType="Integer">
+        SELECT 1
+        FROM mavenartifact
+        WHERE artifactId = #{arg0}
+        AND groupId = #{arg1}
+        Limit 1
+    </select>
 </mapper>

@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface MavenArtifactMapper {
     List<MavenArtifact> selectAllMavenArtifact();
+    int isExist(String artifactId,String groupId);
 }
