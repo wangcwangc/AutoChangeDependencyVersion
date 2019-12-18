@@ -31,6 +31,7 @@ public class MybatisTest {
             }
             System.out.println(sqlSession.getMapper(MavenArtifactMapper.class).isExist("org.slf4j", "slf4j-api"));
 
+            System.out.println(sqlSession.getMapper(MavenArtifactMapper.class).selectMavenArtifact("org.slf4j", "slf4j-api").toString());
 //            sqlSession.getMapper(MavenArtifactMapper.class).insertMavenArtifact(new MavenArtifact("1","2"));
         } catch (Exception e) {
             System.out.println(e);

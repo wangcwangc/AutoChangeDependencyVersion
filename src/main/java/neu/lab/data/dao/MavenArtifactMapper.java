@@ -8,4 +8,5 @@ public interface MavenArtifactMapper {
     List<MavenArtifact> selectAllMavenArtifact();
     int isExist(String artifactId,String groupId);
     void insertMavenArtifact(MavenArtifact mavenArtifact);
+    MavenArtifact selectMavenArtifact(String artifactId, String groupId);
 }

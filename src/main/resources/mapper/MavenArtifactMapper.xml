@@ -8,11 +8,17 @@
     </resultMap>
     <select id="selectAllMavenArtifact" resultMap="BaseResultMap">
         SELECT *
-        FROM mavenartifact
+        FROM maven_artifact
+    </select>
+    <select id="selectMavenArtifact" resultType="MavenArtifact">
+        SELECT *
+        FROM maven_artifact
+        WHERE artifactId = #{arg0}
+        AND groupId = #{arg1}
     </select>
     <select id="isExist" resultType="Integer">
         SELECT 1
-        FROM mavenartifact
+        FROM maven_artifact
         WHERE artifactId = #{arg0}
         AND groupId = #{arg1}
         Limit 1
@@ -20,7 +26,7 @@
 
     <insert id="insertMavenArtifact" parameterType="MavenArtifact">
         INSERT INTO
-        mavenartifact(artifactId, groupId)
+        maven_artifact(artifactId, groupId)
         VALUES(#{artifactId}, #{groupId})
     </insert>
 </mapper>
