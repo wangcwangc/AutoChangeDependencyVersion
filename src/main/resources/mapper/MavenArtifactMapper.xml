@@ -17,4 +17,10 @@
         AND groupId = #{arg1}
         Limit 1
     </select>
+
+    <insert id="insertMavenArtifact" parameterType="MavenArtifact">
+        INSERT INTO
+        mavenartifact(artifactId, groupId)
+        VALUES(#{artifactId}, #{groupId})
+    </insert>
 </mapper>
