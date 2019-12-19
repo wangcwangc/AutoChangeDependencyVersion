@@ -4,7 +4,7 @@ import neu.lab.data.po.MavenArtifact;
 
 import java.util.List;
 
-public interface MavenArtifactMapper {
+public interface MavenArtifactDao {
     List<MavenArtifact> selectAllMavenArtifact();
     int isExist(String groupId, String artifactId);
     void insertMavenArtifact(MavenArtifact mavenArtifact);

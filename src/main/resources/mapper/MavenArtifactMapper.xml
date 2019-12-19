@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="neu.lab.data.dao.MavenArtifactMapper">
+<mapper namespace="neu.lab.data.dao.MavenArtifactDao">
     <resultMap id="BaseResultMap" type="MavenArtifact">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="artifactId" property="artifactId" jdbcType="VARCHAR"/>

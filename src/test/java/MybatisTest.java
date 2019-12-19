@@ -1,5 +1,5 @@
-import neu.lab.data.dao.ArtifactVersionMapper;
-import neu.lab.data.dao.MavenArtifactMapper;
+import neu.lab.data.dao.ArtifactVersionDao;
+import neu.lab.data.dao.MavenArtifactDao;
 import neu.lab.data.po.ArtifactVersion;
 import neu.lab.data.po.MavenArtifact;
 import neu.lab.util.MavenCrawler;
@@ -33,14 +33,14 @@ public class MybatisTest {
             sqlSession = sqlSessionFactory.openSession();
             //4 根据放入工厂的sql语句执行不同的方法
 //            count = sqlSession.selectOne("com.bdqn.dao.TUserMapper.queryCount");
-            List<MavenArtifact> list = sqlSession.getMapper(MavenArtifactMapper.class).selectAllMavenArtifact();
+            List<MavenArtifact> list = sqlSession.getMapper(MavenArtifactDao.class).selectAllMavenArtifact();
             for (MavenArtifact mavenArtifact : list) {
                 System.out.println(mavenArtifact.toString());
             }
-            System.out.println(sqlSession.getMapper(MavenArtifactMapper.class).isExist("org.slf4j", "slf4j-api"));
+            System.out.println(sqlSession.getMapper(MavenArtifactDao.class).isExist("org.slf4j", "slf4j-api"));
 
-            System.out.println(sqlSession.getMapper(MavenArtifactMapper.class).selectMavenArtifact("org.slf4j", "slf4j-api").toString());
-//            sqlSession.getMapper(MavenArtifactMapper.class).insertMavenArtifact(new MavenArtifact("1","2"));
+            System.out.println(sqlSession.getMapper(MavenArtifactDao.class).selectMavenArtifact("org.slf4j", "slf4j-api").toString());
+//            sqlSession.getMapper(MavenArtifactDao.class).insertMavenArtifact(new MavenArtifact("1","2"));
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -60,7 +60,7 @@ public class MybatisTest {
             //3 创建sqlSession，开启工厂
             sqlSession = sqlSessionFactory.openSession();
             //4 根据放入工厂的sql语句执行不同的方法
-            Set<ArtifactVersion> list = sqlSession.getMapper(ArtifactVersionMapper.class).selectAllArtifactVersionByMavenArtifactId(1);
+            Set<ArtifactVersion> list = sqlSession.getMapper(ArtifactVersionDao.class).selectAllArtifactVersionByMavenArtifactId(1);
             for (ArtifactVersion artifactVersion : list) {
                 System.out.println(artifactVersion.toString());
             }
@@ -73,7 +73,7 @@ public class MybatisTest {
     @Ignore
     public void test3() {
         SqlSession sqlSession = MybatisUtil.createSqlSession();
-        MavenArtifact mavenArtifact = sqlSession.getMapper(MavenArtifactMapper.class).selectMavenArtifact("org.slf4j", "slf4j-api");
+        MavenArtifact mavenArtifact = sqlSession.getMapper(MavenArtifactDao.class).selectMavenArtifact("org.slf4j", "slf4j-api");
         List<String> versionList = MavenCrawler.getVersionList(mavenArtifact.getGroupId(), mavenArtifact.getArtifactId());
         List<ArtifactVersion> artifactVersionList = new ArrayList<>();
         int priority = versionList.size();
@@ -81,7 +81,7 @@ public class MybatisTest {
             System.out.println(version);
             ArtifactVersion artifactVersion = new ArtifactVersion(version, priority--, mavenArtifact.getId());
             artifactVersionList.add(artifactVersion);
-            sqlSession.getMapper(ArtifactVersionMapper.class).insertArtifactVersion(artifactVersion);
+            sqlSession.getMapper(ArtifactVersionDao.class).insertArtifactVersion(artifactVersion);
         }
         System.out.println(artifactVersionList.size());
 //        sqlSession.commit();
@@ -91,7 +91,7 @@ public class MybatisTest {
     @Test
     @Ignore
     public void test4() {
-        DependencyNode dependencyNode = new DependencyNode("org.slf4j", "slf4j-api");
+        DependencyNode dependencyNode = new DependencyNode("junit", "junit");
         System.out.println(dependencyNode.toString());
     }
 }

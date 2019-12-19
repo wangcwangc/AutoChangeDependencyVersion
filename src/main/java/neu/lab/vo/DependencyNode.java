@@ -1,7 +1,7 @@
 package neu.lab.vo;
 
-import neu.lab.data.dao.ArtifactVersionMapper;
-import neu.lab.data.dao.MavenArtifactMapper;
+import neu.lab.data.dao.ArtifactVersionDao;
+import neu.lab.data.dao.MavenArtifactDao;
 import neu.lab.data.po.ArtifactVersion;
 import neu.lab.data.po.MavenArtifact;
 import neu.lab.util.MavenCrawler;
@@ -56,8 +56,8 @@ public class DependencyNode {
         SqlSession sqlSession = MybatisUtil.createSqlSession();
 
         //创建mapper
-        MavenArtifactMapper mavenArtifactMapper = sqlSession.getMapper(MavenArtifactMapper.class);
-        ArtifactVersionMapper artifactVersionMapper = sqlSession.getMapper(ArtifactVersionMapper.class);
+        MavenArtifactDao mavenArtifactMapper = sqlSession.getMapper(MavenArtifactDao.class);
+        ArtifactVersionDao artifactVersionMapper = sqlSession.getMapper(ArtifactVersionDao.class);
 
         MavenArtifact mavenArtifact = mavenArtifactMapper.selectMavenArtifact(groupId, artifactId);
 
@@ -78,10 +78,6 @@ public class DependencyNode {
             sqlSession.commit();
         } else {
             artifactVersions = artifactVersionMapper.selectAllArtifactVersionByMavenArtifactId(mavenArtifact.getId());
-            System.out.println(artifactVersions.size());
-            for (ArtifactVersion artifactVersion : artifactVersions){
-                System.out.println(artifactVersion);
-            }
         }
         MybatisUtil.closeSqlSession(sqlSession);
     }
