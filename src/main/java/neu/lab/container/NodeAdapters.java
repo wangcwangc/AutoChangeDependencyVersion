@@ -3,6 +3,7 @@ package neu.lab.container;
 import java.util.ArrayList;
 import java.util.List;
 
+import neu.lab.util.Config;
 import neu.lab.util.MavenUtil;
 import neu.lab.vo.DependencyInfo;
 import org.apache.maven.shared.dependency.tree.DependencyNode;
@@ -27,17 +28,32 @@ public class NodeAdapters {
 
 //        System.out.println(root.toNodeString());
 
-        for (DependencyNode child : root.getChildren()) {
+        for (DependencyNode childDirect : root.getChildren()) {
 //            System.out.println(child.toNodeString());
             //过滤test范围的依赖
-            if (MavenUtil.i().getMojo().ignoreTestScope && "test".equals(child.getArtifact().getScope())) {
+            if (MavenUtil.i().getMojo().ignoreTestScope && "test".equals(childDirect.getArtifact().getScope())) {
                 continue;
             }
-            ArtifactNodes artifactNodes = new ArtifactNodes(child.getArtifact().getGroupId(),
-                    child.getArtifact().getArtifactId(), child.getArtifact().getVersion());
+            ArtifactNodes artifactNodes = new ArtifactNodes(childDirect.getArtifact().getGroupId(),
+                    childDirect.getArtifact().getArtifactId(), childDirect.getArtifact().getVersion());
             NodeAdapters.i().addArtifactNodes(artifactNodes);
+            addIndirectArtifactNodes(childDirect, 2);
         }
         // add management node
+    }
+
+    private static void addIndirectArtifactNodes(DependencyNode dependencyNode, int depth) {
+        if (depth <= Config.maxDependencyDepth) {
+            for (DependencyNode child : dependencyNode.getChildren()) {
+                if (MavenUtil.i().getMojo().ignoreTestScope && "test".equals(child.getArtifact().getScope())) {
+                    continue;
+                }
+                ArtifactNodes artifactNodes = new ArtifactNodes(child.getArtifact().getGroupId(),
+                        child.getArtifact().getArtifactId(), child.getArtifact().getVersion());
+                NodeAdapters.i().addArtifactNodes(artifactNodes);
+                addIndirectArtifactNodes(child, ++depth);
+            }
+        }
     }
 
     public List<ArtifactNodes> getContainer() {
@@ -88,5 +104,4 @@ public class NodeAdapters {
 //    public List<NodeAdapter> getAllNodeAdapter() {
 //        return container;
 //    }
-
 }

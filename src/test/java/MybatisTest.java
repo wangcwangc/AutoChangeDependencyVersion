@@ -88,10 +88,4 @@ public class MybatisTest {
         MybatisUtil.closeSqlSession(sqlSession);
     }
 
-    @Test
-    @Ignore
-    public void test4() {
-        ArtifactNodes artifactNodes = new ArtifactNodes("io.grpc", "grpc-api");
-        System.out.println(artifactNodes.toString());
-    }
 }

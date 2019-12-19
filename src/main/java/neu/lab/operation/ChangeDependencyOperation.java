@@ -17,14 +17,14 @@ public class ChangeDependencyOperation {
 
     public void readPom() {
         List<Element> dependencyList = ReadXML.readPomDependencies(MavenUtil.i().getProjectPom());
+        //当前pom中显式声明的dependency
         List<DependencyInfo> dependencyInfoList = new ArrayList<>();
 
         for (Element element : dependencyList) {
-            DependencyInfo dependencyInfo = new DependencyInfo();
-            System.out.println(element.element("groupId").getText());
-            System.out.println(element.element("artifactId").getText());
-            System.out.println(element.element("version").getText());
+            DependencyInfo dependencyInfo = new DependencyInfo(element.element("groupId").getText(), element.element("artifactId").getText());
+            dependencyInfoList.add(dependencyInfo);
         }
+
 //        NodeAdapters.i().getArtifactNodes()
     }
 }

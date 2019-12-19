@@ -1,6 +1,7 @@
 package neu.lab.dependency;
 
 import neu.lab.container.NodeAdapters;
+import neu.lab.util.Config;
 import neu.lab.util.MavenUtil;
 import org.apache.maven.artifact.factory.ArtifactFactory;
 import org.apache.maven.artifact.handler.manager.ArtifactHandlerManager;
@@ -69,9 +70,13 @@ public abstract class DependencyMojo extends AbstractMojo {
 
     public long systemFileSize = 0;// byte
 
+    @Parameter(property = "maxDependencyDepth", defaultValue = "2")
+    public int maxDependencyDepth;
+
     // 初始化全局变量
     protected void initGlobalVar() throws Exception {
         MavenUtil.i().setMojo(this);
+        Config.maxDependencyDepth = maxDependencyDepth;
         // 初始化NodeAdapters
         NodeAdapters.init(root);
         // 初始化DepJars

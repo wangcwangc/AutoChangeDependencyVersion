@@ -7,8 +7,13 @@ public class DependencyInfo {
     private String artifactId;
     private String version;
 
-    public  DependencyInfo() {
+    public DependencyInfo() {
 
+    }
+
+    public DependencyInfo(String groupId, String artifactId) {
+        this.groupId = groupId;
+        this.artifactId = artifactId;
     }
 
     public DependencyInfo(String groupId, String artifactId, String version) {
