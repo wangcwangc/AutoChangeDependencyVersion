@@ -1,6 +1,7 @@
 package neu.lab.dependency;
 
 import neu.lab.container.NodeAdapters;
+import neu.lab.util.MavenUtil;
 import org.apache.maven.artifact.factory.ArtifactFactory;
 import org.apache.maven.artifact.handler.manager.ArtifactHandlerManager;
 import org.apache.maven.artifact.repository.ArtifactRepository;
@@ -70,7 +71,7 @@ public abstract class DependencyMojo extends AbstractMojo {
 
     // 初始化全局变量
     protected void initGlobalVar() throws Exception {
-
+        MavenUtil.i().setMojo(this);
         // 初始化NodeAdapters
         NodeAdapters.init(root);
         // 初始化DepJars

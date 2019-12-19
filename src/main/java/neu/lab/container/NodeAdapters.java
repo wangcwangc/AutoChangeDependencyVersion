@@ -24,10 +24,10 @@ public class NodeAdapters {
 //        NodeAdapterCollector visitor = new NodeAdapterCollector(instance);
 //        root.accept(visitor);
 
-        System.out.println(root.toNodeString());
+//        System.out.println(root.toNodeString());
 
         for (DependencyNode child : root.getChildren()) {
-            System.out.println(child.toNodeString());
+//            System.out.println(child.toNodeString());
             ArtifactNode artifactNode = new ArtifactNode(child.getArtifact().getGroupId(), child.getArtifact().getArtifactId());
             NodeAdapters.i().addNodeAapter(artifactNode);
         }
