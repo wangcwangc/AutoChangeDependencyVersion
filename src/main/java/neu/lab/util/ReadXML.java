@@ -2,13 +2,15 @@ package neu.lab.util;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import neu.lab.vo.DependencyInfo;
 import org.dom4j.*;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
-
 
 
 public class ReadXML {
@@ -35,11 +37,36 @@ public class ReadXML {
             writer.write(document);
             writer.close();
         } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            MavenUtil.i().getLog().error(e.getMessage());
         }
     }
 
+    public static List<Element> readPomDependencies(String pomFilePath) {
+        SAXReader reader = new SAXReader();
+        List<Element> dependencyList = new ArrayList<>();
+
+        try {
+            Document document = reader.read(pomFilePath);
+            Element rootElement = document.getRootElement();
+            Element dependencies = rootElement.element("dependencies");
+            if (dependencies != null) {
+                dependencyList = dependencies.elements("dependency");
+//                while (elementIterator.hasNext()) {
+//                    dependencyList.add((Element) elementIterator.next());
+//                }
+            }
+//            Element dependency = dependencies.addElement("dependency");
+//            dependencyInfo.addDependencyElement(dependency);
+//            OutputFormat outputFormat = OutputFormat.createPrettyPrint();
+//            outputFormat.setEncoding("UTF-8");
+//            XMLWriter writer = new XMLWriter(new FileWriter(xmlFilePath), outputFormat);
+//            writer.write(document);
+//            writer.close();
+        } catch (Exception e) {
+            MavenUtil.i().getLog().error(e.getMessage());
+        }
+        return dependencyList;
+    }
 //    /**
 //     * copy empty dependency xml to target path
 //     *

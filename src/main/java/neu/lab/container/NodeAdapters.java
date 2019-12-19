@@ -3,7 +3,7 @@ package neu.lab.container;
 import java.util.ArrayList;
 import java.util.List;
 
-import neu.lab.vo.ArtifactNode;
+import neu.lab.util.MavenUtil;
 import org.apache.maven.shared.dependency.tree.DependencyNode;
 
 
@@ -28,24 +28,28 @@ public class NodeAdapters {
 
         for (DependencyNode child : root.getChildren()) {
 //            System.out.println(child.toNodeString());
-            ArtifactNode artifactNode = new ArtifactNode(child.getArtifact().getGroupId(), child.getArtifact().getArtifactId());
-            NodeAdapters.i().addNodeAapter(artifactNode);
+            //过滤test范围的依赖
+            if (MavenUtil.i().getMojo().ignoreTestScope && "test".equals(child.getArtifact().getScope())) {
+                continue;
+            }
+            ArtifactNodes artifactNodes = new ArtifactNodes(child.getArtifact().getGroupId(), child.getArtifact().getArtifactId());
+            NodeAdapters.i().addNodeAapter(artifactNodes);
         }
         // add management node
     }
 
-    public List<ArtifactNode> getContainer() {
+    public List<ArtifactNodes> getContainer() {
         return container;
     }
 
-    private List<ArtifactNode> container;
+    private List<ArtifactNodes> container;
 
     private NodeAdapters() {
-        container = new ArrayList<ArtifactNode>();
+        container = new ArrayList<ArtifactNodes>();
     }
 
-    public void addNodeAapter(ArtifactNode artifactNode) {
-        container.add(artifactNode);
+    public void addNodeAapter(ArtifactNodes artifactNodes) {
+        container.add(artifactNodes);
     }
 
 //    /**
@@ -53,8 +57,8 @@ public class NodeAdapters {
 //     *
 //     * @param node
 //     */
-//    public ArtifactNode getNodeAdapter(DependencyNode node) {
-//        for (ArtifactNode artifactNode : container) {
+//    public ArtifactNodes getNodeAdapter(DependencyNode node) {
+//        for (ArtifactNodes artifactNode : container) {
 //            if (nodeAdapter.isSelf(node))
 //                return nodeAdapter;
 //        }

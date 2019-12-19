@@ -1,4 +1,4 @@
-package neu.lab.vo;
+package neu.lab.container;
 
 import neu.lab.data.dao.ArtifactVersionDao;
 import neu.lab.data.dao.MavenArtifactDao;
@@ -12,12 +12,12 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-public class ArtifactNode {
+public class ArtifactNodes {
     private String groupId;
     private String artifactId;
     private Set<ArtifactVersion> artifactVersions;
 
-    public ArtifactNode(String groupId, String artifactId) {
+    public ArtifactNodes(String groupId, String artifactId) {
         this.groupId = groupId;
         this.artifactId = artifactId;
         artifactVersions = new LinkedHashSet<>();
@@ -84,7 +84,7 @@ public class ArtifactNode {
 
     @Override
     public String toString() {
-        return "ArtifactNode{" +
+        return "ArtifactNodes{" +
                 "groupId='" + groupId + '\'' +
                 ", artifactId='" + artifactId + '\'' +
                 ", artifactVersions=" + artifactVersions +

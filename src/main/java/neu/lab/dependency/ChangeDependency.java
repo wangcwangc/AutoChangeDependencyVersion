@@ -1,9 +1,9 @@
 package neu.lab.dependency;
 
+import neu.lab.container.ArtifactNodes;
 import neu.lab.container.NodeAdapters;
 import neu.lab.operation.ChangeDependencyOperation;
 import neu.lab.util.MavenUtil;
-import neu.lab.vo.ArtifactNode;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 
@@ -13,11 +13,11 @@ import java.util.List;
 public class ChangeDependency extends DependencyMojo {
     @Override
     public void run() {
-//        List<ArtifactNode> con = NodeAdapters.i().getContainer();
-//        for (ArtifactNode artifactNode : con){
-//            System.out.println(artifactNode.toString());
-//        }
+        List<ArtifactNodes> con = NodeAdapters.i().getContainer();
+        for (ArtifactNodes artifactNode : con) {
+            System.out.println(artifactNode.getArtifactId());
+        }
         System.out.println(MavenUtil.i().getProjectPom());
-        new ChangeDependencyOperation();
+        new ChangeDependencyOperation().readPom();
     }
 }

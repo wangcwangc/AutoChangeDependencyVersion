@@ -104,6 +104,30 @@ public class ExecuteCommand {
         }
     }
 
+    public void test() {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        PumpStreamHandler streamHandler = new PumpStreamHandler(outputStream);
+//        exec.setStreamHandler(streamHandler);
+//        exec.execute(commandline);
+//        return(outputStream.toString());
+        CommandLine cmdLine = CommandLine.parse("mvn test");
+        DefaultExecutor executor = new DefaultExecutor();
+        try {
+            executor.setStreamHandler(streamHandler);
+            executor.execute(cmdLine);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+//        System.out.println(outputStream.toString());
+        boolean bulidSuccess = false;
+        for (String line : outputStream.toString().split("\\n")) {
+            if (line.contains("Tests run:")) {
+                System.out.println(line);
+                bulidSuccess = true;
+            }
+        }
+    }
 //    public static void main(String[] args) throws ExecuteException, IOException {
 ////		exeCmd("sh /Users/wangchao/eclipse-workspace/Host/sensor_testcase/test_method/getSize/neu/lab/Host/execute.sh");
 ////        System.out.println(exeBatAndGetResult("sh /Users/wangchao/eclipse-workspace/Host/sensor_testcase/test_method/getSize/neu/lab/Host/execute.sh"));
