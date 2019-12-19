@@ -24,13 +24,10 @@ public class ArtifactVersion {
                 major = versionSplit[0];
                 minor = versionSplit[1];
                 break;
-            case 3:
+            default:
                 major = versionSplit[0];
                 minor = versionSplit[1];
                 patch = versionSplit[2];
-                break;
-            default:
-                major = version;
         }
         this.priority = priority;
         this.mavenArtifactId = mavenArtifactId;
