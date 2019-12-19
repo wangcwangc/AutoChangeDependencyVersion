@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="neu.lab.data.dao.ArtifactVersionMapper">
-    <!--    <resultMap id="BaseResultMap" type="ArtifactVersion">-->
-    <!--        <id column="id" property="id" jdbcType="INTEGER"/>-->
-    <!--        <result column="artifactId" property="artifactId" jdbcType="VARCHAR"/>-->
-    <!--        <result column="groupId" property="groupId" jdbcType="VARCHAR"/>-->
-    <!--    </resultMap>-->
-    <select id="selectAllArtifactVersionByMavenArtifactId" resultType="ArtifactVersion" parameterType="Integer">
+    <resultMap id="BaseResultMap" type="ArtifactVersion">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="version" property="version" jdbcType="VARCHAR"/>
+        <result column="major" property="major" jdbcType="VARCHAR"/>
+        <result column="minor" property="minor" jdbcType="VARCHAR"/>
+        <result column="patch" property="patch" jdbcType="VARCHAR"/>
+        <result column="priority" property="priority" jdbcType="INTEGER"/>
+        <result column="mavenArtifactId" property="mavenArtifactId" jdbcType="INTEGER"/>
+    </resultMap>
+    <select id="selectAllArtifactVersionByMavenArtifactId" resultMap="BaseResultMap" parameterType="INTEGER">
         SELECT *
         FROM artifact_version
         WHERE mavenArtifactId = #{mavenArtifactId}
+        ORDER BY priority DESC
     </select>
     <insert id="insertArtifactVersion" parameterType="ArtifactVersion">
         INSERT

@@ -5,6 +5,9 @@ public class MavenArtifact {
     private String groupId;
     private String artifactId;
 
+    public MavenArtifact() {
+    }
+
     public MavenArtifact(String groupId, String artifactId) {
         this.groupId = groupId;
         this.artifactId = artifactId;

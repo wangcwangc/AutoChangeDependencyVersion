@@ -9,6 +9,9 @@ public class ArtifactVersion {
     private int priority;
     private int mavenArtifactId;
 
+    public ArtifactVersion() {
+    }
+
     public ArtifactVersion(String version, int priority, int mavenArtifactId) {
         this.version = version;
         String[] versionSplit = version.split("\\.");

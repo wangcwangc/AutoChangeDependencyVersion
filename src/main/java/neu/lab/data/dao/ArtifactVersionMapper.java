@@ -1,11 +1,11 @@
 package neu.lab.data.dao;
 
 import neu.lab.data.po.ArtifactVersion;
-import neu.lab.data.po.MavenArtifact;
 
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 public interface ArtifactVersionMapper {
-    List<ArtifactVersion> selectAllArtifactVersionByMavenArtifactId(int mavenArtifactId);
+    LinkedHashSet<ArtifactVersion> selectAllArtifactVersionByMavenArtifactId(int mavenArtifactId);
     void insertArtifactVersion(ArtifactVersion ArtifactVersion);
 }

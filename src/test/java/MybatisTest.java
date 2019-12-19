@@ -4,17 +4,18 @@ import neu.lab.data.po.ArtifactVersion;
 import neu.lab.data.po.MavenArtifact;
 import neu.lab.util.MavenCrawler;
 import neu.lab.util.MybatisUtil;
+import neu.lab.vo.DependencyNode;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class MybatisTest {
     @Test
@@ -59,7 +60,7 @@ public class MybatisTest {
             //3 创建sqlSession，开启工厂
             sqlSession = sqlSessionFactory.openSession();
             //4 根据放入工厂的sql语句执行不同的方法
-            List<ArtifactVersion> list = sqlSession.getMapper(ArtifactVersionMapper.class).selectAllArtifactVersionByMavenArtifactId(1);
+            Set<ArtifactVersion> list = sqlSession.getMapper(ArtifactVersionMapper.class).selectAllArtifactVersionByMavenArtifactId(1);
             for (ArtifactVersion artifactVersion : list) {
                 System.out.println(artifactVersion.toString());
             }
@@ -85,5 +86,12 @@ public class MybatisTest {
         System.out.println(artifactVersionList.size());
 //        sqlSession.commit();
         MybatisUtil.closeSqlSession(sqlSession);
+    }
+
+    @Test
+    @Ignore
+    public void test4() {
+        DependencyNode dependencyNode = new DependencyNode("org.slf4j", "slf4j-api");
+        System.out.println(dependencyNode.toString());
     }
 }
