@@ -15,11 +15,13 @@ import java.util.Set;
 public class ArtifactNodes {
     private String groupId;
     private String artifactId;
+    private String currentVersion;
     private Set<ArtifactVersion> artifactVersions;
 
-    public ArtifactNodes(String groupId, String artifactId) {
+    public ArtifactNodes(String groupId, String artifactId, String currentVersion) {
         this.groupId = groupId;
         this.artifactId = artifactId;
+        this.currentVersion = currentVersion;
         artifactVersions = new LinkedHashSet<>();
         initArtifactVersionSet();
     }
@@ -38,6 +40,14 @@ public class ArtifactNodes {
 
     public void setArtifactId(String artifactId) {
         this.artifactId = artifactId;
+    }
+
+    public String getCurrentVersion() {
+        return currentVersion;
+    }
+
+    public void setCurrentVersion(String currentVersion) {
+        this.currentVersion = currentVersion;
     }
 
     public Set<ArtifactVersion> getArtifactVersions() {
@@ -80,6 +90,10 @@ public class ArtifactNodes {
             artifactVersions = artifactVersionMapper.selectAllArtifactVersionByMavenArtifactId(mavenArtifact.getId());
         }
         MybatisUtil.closeSqlSession(sqlSession);
+    }
+
+    public boolean isSelf(String groupId, String artifactId) {
+        return this.groupId.equals(groupId) && this.artifactId.equals(artifactId);
     }
 
     @Override

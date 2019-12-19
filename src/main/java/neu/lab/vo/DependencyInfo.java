@@ -7,7 +7,7 @@ public class DependencyInfo {
     private String artifactId;
     private String version;
 
-    public DependencyInfo() {
+    public  DependencyInfo() {
 
     }
 

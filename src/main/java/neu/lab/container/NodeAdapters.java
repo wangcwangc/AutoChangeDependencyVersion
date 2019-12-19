@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import neu.lab.util.MavenUtil;
+import neu.lab.vo.DependencyInfo;
 import org.apache.maven.shared.dependency.tree.DependencyNode;
 
 
@@ -32,8 +33,9 @@ public class NodeAdapters {
             if (MavenUtil.i().getMojo().ignoreTestScope && "test".equals(child.getArtifact().getScope())) {
                 continue;
             }
-            ArtifactNodes artifactNodes = new ArtifactNodes(child.getArtifact().getGroupId(), child.getArtifact().getArtifactId());
-            NodeAdapters.i().addNodeAapter(artifactNodes);
+            ArtifactNodes artifactNodes = new ArtifactNodes(child.getArtifact().getGroupId(),
+                    child.getArtifact().getArtifactId(), child.getArtifact().getVersion());
+            NodeAdapters.i().addArtifactNodes(artifactNodes);
         }
         // add management node
     }
@@ -48,10 +50,18 @@ public class NodeAdapters {
         container = new ArrayList<ArtifactNodes>();
     }
 
-    public void addNodeAapter(ArtifactNodes artifactNodes) {
+    public void addArtifactNodes(ArtifactNodes artifactNodes) {
         container.add(artifactNodes);
     }
 
+    public ArtifactNodes getArtifactNodes(DependencyInfo dependencyInfo) {
+        for (ArtifactNodes artifactNodes : container) {
+            if (artifactNodes.isSelf(dependencyInfo.getGroupId(), dependencyInfo.getArtifactId())) {
+                return artifactNodes;
+            }
+        }
+        return null;
+    }
 //    /**
 //     * 根据node获得对应的adapter
 //     *

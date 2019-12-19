@@ -18,6 +18,6 @@ public class ChangeDependency extends DependencyMojo {
             System.out.println(artifactNode.getArtifactId());
         }
         System.out.println(MavenUtil.i().getProjectPom());
-        new ChangeDependencyOperation().readPom();
+        new ChangeDependencyOperation().executeOperation();
     }
 }
