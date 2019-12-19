@@ -72,9 +72,10 @@ public class DependencyNode {
                 for (String version : versionList) {
                     ArtifactVersion artifactVersion = new ArtifactVersion(version, priority--, mavenArtifact.getId());
                     artifactVersions.add(artifactVersion);
-                    artifactVersionMapper.insertArtifactVersion(artifactVersion);
+//                    artifactVersionMapper.insertArtifactVersion(artifactVersion);
                 }
             }
+            artifactVersionMapper.insertArtifactVersionSet(artifactVersions);
             sqlSession.commit();
         } else {
             artifactVersions = artifactVersionMapper.selectAllArtifactVersionByMavenArtifactId(mavenArtifact.getId());

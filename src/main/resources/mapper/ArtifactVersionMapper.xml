@@ -21,4 +21,19 @@
         INTO artifact_version(version, major, minor, patch, priority, mavenArtifactId)
         VALUES(#{version}, #{major}, #{minor}, #{patch}, #{priority}, #{mavenArtifactId})
     </insert>
+    <insert id="insertArtifactVersionSet" parameterType="java.util.Set">
+        INSERT
+        INTO artifact_version(version, major, minor, patch, priority, mavenArtifactId)
+        VALUES
+        <foreach collection="set" item="artifactVersion" index="index" separator=",">
+            (
+            #{artifactVersion.version},
+            #{artifactVersion.major},
+            #{artifactVersion.minor},
+            #{artifactVersion.patch},
+            #{artifactVersion.priority},
+            #{artifactVersion.mavenArtifactId}
+            )
+        </foreach>
+    </insert>
 </mapper>

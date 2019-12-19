@@ -91,7 +91,7 @@ public class MybatisTest {
     @Test
     @Ignore
     public void test4() {
-        DependencyNode dependencyNode = new DependencyNode("junit", "junit");
+        DependencyNode dependencyNode = new DependencyNode("io.grpc", "grpc-api");
         System.out.println(dependencyNode.toString());
     }
 }
