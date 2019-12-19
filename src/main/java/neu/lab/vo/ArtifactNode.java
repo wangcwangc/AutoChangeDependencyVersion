@@ -12,12 +12,12 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-public class DependencyNode {
+public class ArtifactNode {
     private String groupId;
     private String artifactId;
     private Set<ArtifactVersion> artifactVersions;
 
-    public DependencyNode(String groupId, String artifactId) {
+    public ArtifactNode(String groupId, String artifactId) {
         this.groupId = groupId;
         this.artifactId = artifactId;
         artifactVersions = new LinkedHashSet<>();
@@ -72,7 +72,6 @@ public class DependencyNode {
                 for (String version : versionList) {
                     ArtifactVersion artifactVersion = new ArtifactVersion(version, priority--, mavenArtifact.getId());
                     artifactVersions.add(artifactVersion);
-//                    artifactVersionMapper.insertArtifactVersion(artifactVersion);
                 }
             }
             artifactVersionMapper.insertArtifactVersionSet(artifactVersions);
@@ -85,7 +84,7 @@ public class DependencyNode {
 
     @Override
     public String toString() {
-        return "DependencyNode{" +
+        return "ArtifactNode{" +
                 "groupId='" + groupId + '\'' +
                 ", artifactId='" + artifactId + '\'' +
                 ", artifactVersions=" + artifactVersions +

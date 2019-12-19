@@ -4,7 +4,7 @@ import neu.lab.data.po.ArtifactVersion;
 import neu.lab.data.po.MavenArtifact;
 import neu.lab.util.MavenCrawler;
 import neu.lab.util.MybatisUtil;
-import neu.lab.vo.DependencyNode;
+import neu.lab.vo.ArtifactNode;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -91,7 +91,7 @@ public class MybatisTest {
     @Test
     @Ignore
     public void test4() {
-        DependencyNode dependencyNode = new DependencyNode("io.grpc", "grpc-api");
-        System.out.println(dependencyNode.toString());
+        ArtifactNode artifactNode = new ArtifactNode("io.grpc", "grpc-api");
+        System.out.println(artifactNode.toString());
     }
 }

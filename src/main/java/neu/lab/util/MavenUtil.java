@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import neu.lab.vo.NodeAdapter;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.resolver.ArtifactNotFoundException;
 import org.apache.maven.artifact.resolver.ArtifactResolutionException;
@@ -31,22 +30,22 @@ public class MavenUtil {
 
     private DependencyMojo mojo;
 
-    public boolean isInner(NodeAdapter nodeAdapter) {
-        return nodeAdapter.isSelf(mojo.project);
-        // for (MavenProject mavenProject : mojo.reactorProjects) {
-        // if (nodeAdapter.isSelf(mavenProject))
-        // return true;
-        // }
-        // return false;
-    }
-
-    public MavenProject getMavenProject(NodeAdapter nodeAdapter) {
-        for (MavenProject mavenProject : mojo.reactorProjects) {
-            if (nodeAdapter.isSelf(mavenProject))
-                return mavenProject;
-        }
-        return null;
-    }
+//    public boolean isInner(NodeAdapter nodeAdapter) {
+//        return nodeAdapter.isSelf(mojo.project);
+//        // for (MavenProject mavenProject : mojo.reactorProjects) {
+//        // if (nodeAdapter.isSelf(mavenProject))
+//        // return true;
+//        // }
+//        // return false;
+//    }
+//
+//    public MavenProject getMavenProject(NodeAdapter nodeAdapter) {
+//        for (MavenProject mavenProject : mojo.reactorProjects) {
+//            if (nodeAdapter.isSelf(mavenProject))
+//                return mavenProject;
+//        }
+//        return null;
+//    }
 
     public void setMojo(DependencyMojo mojo) {
         this.mojo = mojo;
