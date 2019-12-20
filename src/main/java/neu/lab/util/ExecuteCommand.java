@@ -104,7 +104,7 @@ public class ExecuteCommand {
         }
     }
 
-    public void test() {
+    public static boolean test() {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         PumpStreamHandler streamHandler = new PumpStreamHandler(outputStream);
 //        exec.setStreamHandler(streamHandler);
@@ -127,6 +127,7 @@ public class ExecuteCommand {
                 bulidSuccess = true;
             }
         }
+        return bulidSuccess;
     }
 //    public static void main(String[] args) throws ExecuteException, IOException {
 ////		exeCmd("sh /Users/wangchao/eclipse-workspace/Host/sensor_testcase/test_method/getSize/neu/lab/Host/execute.sh");

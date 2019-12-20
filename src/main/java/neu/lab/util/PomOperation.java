@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import neu.lab.container.NodeAdapters;
 import neu.lab.vo.DependencyInfo;
 import org.dom4j.*;
 import org.dom4j.io.OutputFormat;
@@ -13,27 +14,41 @@ import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 
 
-public class ReadXML {
-//    public static String COPY_CONFLICT = "copyConflictDependency.xml";
+public class PomOperation {
+    //    public static String COPY_CONFLICT = "copyConflictDependency.xml";
 //    public static String COPY_JUNIT = "copyJunit.xml";
 //    public static String COYT_EVOSUITE = "copyEvosuiteRuntime.xml";
+    public String POM_PATH = MavenUtil.i().getProjectPom();
+
+
+    private static PomOperation instance;
+
+    public static PomOperation i() {
+        if (instance == null) {
+            instance = new PomOperation();
+        }
+        return instance;
+    }
+
+    private PomOperation() {
+    }
 
     /**
      * add dependency to new empty
      *
      * @param dependencyInfo
      */
-    public static void setCopyDependency(DependencyInfo dependencyInfo, String xmlFilePath) {
+    public void setDependency(DependencyInfo dependencyInfo) {
         SAXReader reader = new SAXReader();
         try {
-            Document document = reader.read(xmlFilePath);
+            Document document = reader.read(POM_PATH);
             Element rootElement = document.getRootElement();
             Element dependencies = rootElement.element("dependencies");
             Element dependency = dependencies.addElement("dependency");
             dependencyInfo.addDependencyElement(dependency);
             OutputFormat outputFormat = OutputFormat.createPrettyPrint();
             outputFormat.setEncoding("UTF-8");
-            XMLWriter writer = new XMLWriter(new FileWriter(xmlFilePath), outputFormat);
+            XMLWriter writer = new XMLWriter(new FileWriter(POM_PATH), outputFormat);
             writer.write(document);
             writer.close();
         } catch (Exception e) {
@@ -41,12 +56,12 @@ public class ReadXML {
         }
     }
 
-    public static List<Element> readPomDependencies(String pomFilePath) {
+    public List<Element> readPomDependencies() {
         SAXReader reader = new SAXReader();
         List<Element> dependencyList = new ArrayList<>();
 
         try {
-            Document document = reader.read(pomFilePath);
+            Document document = reader.read(POM_PATH);
             Element rootElement = document.getRootElement();
             Element dependencies = rootElement.element("dependencies");
             if (dependencies != null) {
@@ -66,6 +81,12 @@ public class ReadXML {
             MavenUtil.i().getLog().error(e.getMessage());
         }
         return dependencyList;
+    }
+
+    public void backupPom() {
+    }
+
+    public void restorePom() {
     }
 //    /**
 //     * copy empty dependency xml to target path

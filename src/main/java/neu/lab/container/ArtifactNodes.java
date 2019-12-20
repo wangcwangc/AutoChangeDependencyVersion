@@ -92,8 +92,14 @@ public class ArtifactNodes {
         MybatisUtil.closeSqlSession(sqlSession);
     }
 
+    //判断是不是同一个包
     public boolean isSelf(String groupId, String artifactId) {
         return this.groupId.equals(groupId) && this.artifactId.equals(artifactId);
+    }
+
+    public ArtifactVersion getNextVersion(ArtifactVersion artifactVersion, boolean upgrade) {
+
+        return null;
     }
 
     @Override

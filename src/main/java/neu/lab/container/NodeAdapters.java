@@ -44,6 +44,7 @@ public class NodeAdapters {
 
     private static void addIndirectArtifactNodes(DependencyNode dependencyNode, int depth) {
         if (depth <= Config.maxDependencyDepth) {
+            depth = depth + 1;
             for (DependencyNode child : dependencyNode.getChildren()) {
                 if (MavenUtil.i().getMojo().ignoreTestScope && "test".equals(child.getArtifact().getScope())) {
                     continue;
@@ -51,7 +52,7 @@ public class NodeAdapters {
                 ArtifactNodes artifactNodes = new ArtifactNodes(child.getArtifact().getGroupId(),
                         child.getArtifact().getArtifactId(), child.getArtifact().getVersion());
                 NodeAdapters.i().addArtifactNodes(artifactNodes);
-                addIndirectArtifactNodes(child, ++depth);
+                addIndirectArtifactNodes(child, depth);
             }
         }
     }

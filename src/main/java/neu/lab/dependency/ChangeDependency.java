@@ -13,11 +13,11 @@ import java.util.List;
 public class ChangeDependency extends DependencyMojo {
     @Override
     public void run() {
-        List<ArtifactNodes> con = NodeAdapters.i().getContainer();
-        for (ArtifactNodes artifactNode : con) {
-            System.out.println(artifactNode.getArtifactId());
-        }
-        System.out.println(MavenUtil.i().getProjectPom());
+//        List<ArtifactNodes> con = NodeAdapters.i().getContainer();
+//        for (ArtifactNodes artifactNode : con) {
+//            System.out.println(artifactNode.getArtifactId());
+//        }
+//        System.out.println(MavenUtil.i().getProjectPom());
         new ChangeDependencyOperation().executeOperation();
     }
 }
