@@ -4,6 +4,7 @@ import neu.lab.container.ArtifactNodes;
 import neu.lab.container.NodeAdapters;
 import neu.lab.operation.ChangeDependencyOperation;
 import neu.lab.util.MavenUtil;
+import neu.lab.util.PomOperation;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 
@@ -18,6 +19,11 @@ public class ChangeDependency extends DependencyMojo {
 //            System.out.println(artifactNode.getArtifactId());
 //        }
 //        System.out.println(MavenUtil.i().getProjectPom());
-        new ChangeDependencyOperation().executeOperation();
+//        new ChangeDependencyOperation().executeOperation();
+        boolean backup = PomOperation.i().backupPom();
+        if (!backup) {
+            return;
+        }
+        PomOperation.i().restorePom();
     }
 }

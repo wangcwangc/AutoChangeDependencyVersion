@@ -1,7 +1,9 @@
 package neu.lab.util;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -18,8 +20,8 @@ public class PomOperation {
     //    public static String COPY_CONFLICT = "copyConflictDependency.xml";
 //    public static String COPY_JUNIT = "copyJunit.xml";
 //    public static String COYT_EVOSUITE = "copyEvosuiteRuntime.xml";
-    public String POM_PATH = MavenUtil.i().getProjectPom();
-
+    private String POM_PATH = MavenUtil.i().getProjectPom();
+    private String POM_PATH_COPY = MavenUtil.i().getBaseDir().getAbsolutePath() + "/pom-copy.xml";
 
     private static PomOperation instance;
 
@@ -83,10 +85,35 @@ public class PomOperation {
         return dependencyList;
     }
 
-    public void backupPom() {
+    public boolean backupPom() {
+        System.out.println(POM_PATH_COPY);
+        try {
+            Files.copy(new File(POM_PATH).toPath(), new File(POM_PATH_COPY).toPath());
+        } catch (IOException e) {
+            MavenUtil.i().getLog().error("backup pom.xml error");
+            MavenUtil.i().getLog().error(e.getMessage());
+            return false;
+        }
+        MavenUtil.i().getLog().info("success backup");
+        return true;
     }
 
-    public void restorePom() {
+    public boolean restorePom() {
+        if (new File(POM_PATH).exists()) {
+            new File(POM_PATH).delete();
+        }
+        try {
+            Files.copy(new File(POM_PATH_COPY).toPath(), new File(POM_PATH).toPath());
+        } catch (IOException e) {
+            MavenUtil.i().getLog().error("restore pom.xml error");
+            MavenUtil.i().getLog().error(e.getMessage());
+            return false;
+        }
+        if (new File(POM_PATH_COPY).exists()) {
+            new File(POM_PATH_COPY).delete();
+        }
+        MavenUtil.i().getLog().info("success restore");
+        return true;
     }
 //    /**
 //     * copy empty dependency xml to target path
@@ -102,7 +129,6 @@ public class PomOperation {
 //            fileInputStream.read(buffer);
 //            Files.write(buffer, new File(xmlFileName));
 //        } catch (IOException e) {
-//            // TODO Auto-generated catch block
 //            e.printStackTrace();
 //        }
 //        return xmlFileName;
@@ -119,7 +145,6 @@ public class PomOperation {
 //        try {
 //            ExecuteCommand.exeCmd(mvnCmd);
 //        } catch (IOException e) {
-//            // TODO Auto-generated catch block
 //            e.printStackTrace();
 //        }
 //    }
