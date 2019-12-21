@@ -168,14 +168,17 @@ public class ExecuteCommand {
             //执行出错，不需要报错，需要记录log
 //            e.printStackTrace();
             try {
-                if (!new File(Config.logFilePath).exists()) {
-                    new File(Config.logFilePath).mkdirs();
+                String thisProjectLogFilePath = Config.logFilePath
+                        + MavenUtil.i().getProjectCor().replaceAll("\\p{Punct}", "")
+                        + "/";
+                if (!new File(thisProjectLogFilePath).exists()) {
+                    new File(thisProjectLogFilePath).mkdirs();
                 }
-                FileWriter fileWriter = new FileWriter(Config.logFilePath + dependencyInfo.getLogFileName());
+                FileWriter fileWriter = new FileWriter(thisProjectLogFilePath + dependencyInfo.getLogFileName());
                 fileWriter.write(outputStream.toString());
                 fileWriter.close();
-            } catch (IOException e1) {
-                MavenUtil.i().getLog().error(e.getMessage());
+            } catch (IOException iOException) {
+                MavenUtil.i().getLog().error(iOException.getMessage());
                 return false;
             }
         }
