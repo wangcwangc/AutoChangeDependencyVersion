@@ -50,7 +50,7 @@ public class PomOperation {
             dependencyInfo.addDependencyElement(dependency);
             OutputFormat outputFormat = OutputFormat.createPrettyPrint();
             outputFormat.setEncoding("UTF-8");
-            XMLWriter writer = new XMLWriter(new FileWriter(POM_PATH), outputFormat);
+            XMLWriter writer = new XMLWriter(new FileWriter(POM_PATH + dependencyInfo.getArtifactId()), outputFormat);
             writer.write(document);
             writer.close();
         } catch (Exception e) {
@@ -86,7 +86,7 @@ public class PomOperation {
     }
 
     public boolean backupPom() {
-        System.out.println(POM_PATH_COPY);
+        MavenUtil.i().getLog().info("backup pom.xml");
         try {
             Files.copy(new File(POM_PATH).toPath(), new File(POM_PATH_COPY).toPath());
         } catch (IOException e) {

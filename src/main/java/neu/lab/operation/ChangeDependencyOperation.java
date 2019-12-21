@@ -20,12 +20,19 @@ public class ChangeDependencyOperation {
     private Set<String> dependencyInPom = new HashSet<>();
 
     public void executeOperation() {
+        boolean backup = PomOperation.i().backupPom();
+        if (!backup) {
+            return;
+        }
         readPom();
         List<ArtifactNodes> needChangeDependencyList = NodeAdapters.i().getContainer();
         if (needChangeDependencyList.size() == 0) return;
         for (ArtifactNodes artifactNodes : needChangeDependencyList) {
             changeVersion(artifactNodes);
+            System.out.println(artifactNodes.getGroupId() + artifactNodes.getArtifactId());
         }
+
+        PomOperation.i().restorePom();
     }
 
     public void readPom() {
@@ -49,17 +56,18 @@ public class ChangeDependencyOperation {
     private void change(ArtifactNodes artifactNodes, boolean upgrade) {
 //        boolean jumpMajor = false;
         boolean hasError = false;
-        ArtifactVersion artifactVersion = null;
+        String artifactVersion = null;
         while (!hasError) {
 //            artifactVersion = artifactNodes.getNextVersion(artifactVersion, jumpMajor, true);
             artifactVersion = artifactNodes.getNextVersion(artifactVersion, upgrade);
             if (artifactVersion == null) {
                 break;
             }
-            DependencyInfo dependencyInfo = new DependencyInfo(artifactNodes.getGroupId(), artifactNodes.getArtifactId(), artifactVersion.getVersion());
-            PomOperation.i().setDependency(dependencyInfo);
-            //TODO exec mvn package and mvn test
-            hasError = ExecuteCommand.test();
+            System.out.println(artifactVersion);
+//            DependencyInfo dependencyInfo = new DependencyInfo(artifactNodes.getGroupId(), artifactNodes.getArtifactId(), artifactVersion);
+//            PomOperation.i().setDependency(dependencyInfo);
+//            //TODO exec mvn package and mvn test
+//            hasError = ExecuteCommand.test();
             //TODO 记录出错log
         }
     }

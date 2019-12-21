@@ -18,6 +18,8 @@ public class MavenCrawler {
         Document html = null;
         List<String> versionList = new ArrayList<>();
         try {
+            //暂停一秒，防止被反爬
+            Thread.sleep(1000);
             html = Jsoup.connect(mavenArtifactUrl + artifactUrl).timeout(5000).get();
         } catch (Exception e) {
             MavenUtil.i().getLog().error("connect error, message : " + e.getMessage());

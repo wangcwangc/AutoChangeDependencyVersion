@@ -19,11 +19,6 @@ public class ChangeDependency extends DependencyMojo {
 //            System.out.println(artifactNode.getArtifactId());
 //        }
 //        System.out.println(MavenUtil.i().getProjectPom());
-//        new ChangeDependencyOperation().executeOperation();
-        boolean backup = PomOperation.i().backupPom();
-        if (!backup) {
-            return;
-        }
-        PomOperation.i().restorePom();
+        new ChangeDependencyOperation().executeOperation();
     }
 }
