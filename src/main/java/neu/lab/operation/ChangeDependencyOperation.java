@@ -20,6 +20,9 @@ public class ChangeDependencyOperation {
     private Set<String> dependencyInPom = new HashSet<>();
 
     public void executeOperation() {
+        if (!ExecuteCommand.mvn(ExecuteCommand.MVN_COMPILE)) {
+            return;
+        }
         boolean backup = PomOperation.i().backupPom();
         if (!backup) {
             return;
@@ -65,9 +68,9 @@ public class ChangeDependencyOperation {
             }
 //            System.out.println(artifactVersion);
             DependencyInfo dependencyInfo = new DependencyInfo(artifactNodes.getGroupId(), artifactNodes.getArtifactId(), artifactVersion);
-            if(hasInCurrentPom(dependencyInfo)){
+            if (hasInCurrentPom(dependencyInfo)) {
                 PomOperation.i().updateDependencyVersion(dependencyInfo);
-            }else {
+            } else {
                 PomOperation.i().addDependency(dependencyInfo);
             }
 

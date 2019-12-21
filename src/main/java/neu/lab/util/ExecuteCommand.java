@@ -7,6 +7,10 @@ import java.util.ArrayList;
 
 
 public class ExecuteCommand {
+
+    public static final String MVN_COMPILE = "mvn compile";
+    public static final String MVN_PACKAGE = "mvn package";
+
     public static void exeCmd(String mvnCmd) throws ExecuteException, IOException {
         exeCmd(mvnCmd, 0, null);
     }
@@ -129,6 +133,24 @@ public class ExecuteCommand {
         }
         return bulidSuccess;
     }
+
+    public static boolean mvn(String mvnCMD) {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        PumpStreamHandler streamHandler = new PumpStreamHandler(outputStream);
+        CommandLine cmdLine = CommandLine.parse(mvnCMD);
+        DefaultExecutor executor = new DefaultExecutor();
+        int exitCode = -1;
+        try {
+            executor.setStreamHandler(streamHandler);
+            exitCode = executor.execute(cmdLine);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println(outputStream.toString());
+        return exitCode == 0;
+    }
+
 //    public static void main(String[] args) throws ExecuteException, IOException {
 ////		exeCmd("sh /Users/wangchao/eclipse-workspace/Host/sensor_testcase/test_method/getSize/neu/lab/Host/execute.sh");
 ////        System.out.println(exeBatAndGetResult("sh /Users/wangchao/eclipse-workspace/Host/sensor_testcase/test_method/getSize/neu/lab/Host/execute.sh"));
