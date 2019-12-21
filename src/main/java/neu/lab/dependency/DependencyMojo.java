@@ -73,10 +73,14 @@ public abstract class DependencyMojo extends AbstractMojo {
     @Parameter(property = "maxDependencyDepth", defaultValue = "2")
     public int maxDependencyDepth;
 
+    @Parameter(property = "logFilePath")
+    public String logFilePath;
+
     // 初始化全局变量
     protected void initGlobalVar() throws Exception {
         MavenUtil.i().setMojo(this);
         Config.maxDependencyDepth = maxDependencyDepth;
+        Config.logFilePath = logFilePath;
         // 初始化NodeAdapters
         NodeAdapters.init(root);
         // 初始化DepJars

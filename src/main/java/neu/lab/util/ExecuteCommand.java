@@ -168,10 +168,10 @@ public class ExecuteCommand {
             //执行出错，不需要报错，需要记录log
 //            e.printStackTrace();
             try {
-                if (!new File(Config.logPath).exists()) {
-                    new File(Config.logPath).mkdirs();
+                if (!new File(Config.logFilePath).exists()) {
+                    new File(Config.logFilePath).mkdirs();
                 }
-                FileWriter fileWriter = new FileWriter(Config.logPath + dependencyInfo.getLogFileName());
+                FileWriter fileWriter = new FileWriter(Config.logFilePath + dependencyInfo.getLogFileName());
                 fileWriter.write(outputStream.toString());
                 fileWriter.close();
             } catch (IOException e1) {
