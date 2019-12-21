@@ -40,17 +40,49 @@ public class PomOperation {
      *
      * @param dependencyInfo
      */
-    public void setDependency(DependencyInfo dependencyInfo) {
+    public void addDependency(DependencyInfo dependencyInfo) {
         SAXReader reader = new SAXReader();
         try {
             Document document = reader.read(POM_PATH);
             Element rootElement = document.getRootElement();
             Element dependencies = rootElement.element("dependencies");
+            if (dependencies == null) {
+                dependencies = rootElement.addElement("dependencies");
+            }
             Element dependency = dependencies.addElement("dependency");
             dependencyInfo.addDependencyElement(dependency);
             OutputFormat outputFormat = OutputFormat.createPrettyPrint();
             outputFormat.setEncoding("UTF-8");
-            XMLWriter writer = new XMLWriter(new FileWriter(POM_PATH + dependencyInfo.getArtifactId()), outputFormat);
+            XMLWriter writer = new XMLWriter(new FileWriter(MavenUtil.i().getBaseDir().getAbsolutePath() + "/test/" + dependencyInfo.getVersion()), outputFormat);
+            writer.write(document);
+            writer.close();
+        } catch (Exception e) {
+            MavenUtil.i().getLog().error(e.getMessage());
+        }
+    }
+
+    public void updateDependencyVersion(DependencyInfo dependencyInfo) {
+        SAXReader reader = new SAXReader();
+        try {
+            Document document = reader.read(POM_PATH);
+            Element rootElement = document.getRootElement();
+            Element dependencies = rootElement.element("dependencies");
+            Iterator dependencyIterator = dependencies.elementIterator("dependency");
+            while (dependencyIterator.hasNext()) {
+                Element dependency = (Element) dependencyIterator.next();
+                if (dependency.element("groupId").getText().equals(dependencyInfo.getGroupId())
+                        && dependency.element("artifactId").getText().equals(dependencyInfo.getArtifactId())) {
+                    Element version = dependency.element("version");
+                    if (version==null){
+                        version= dependency.addElement("version");
+                    }
+                    version.setText(dependencyInfo.getVersion());
+                    break;
+                }
+            }
+            OutputFormat outputFormat = OutputFormat.createPrettyPrint();
+            outputFormat.setEncoding("UTF-8");
+            XMLWriter writer = new XMLWriter(new FileWriter(MavenUtil.i().getBaseDir().getAbsolutePath() + "/test/" + dependencyInfo.getVersion()), outputFormat);
             writer.write(document);
             writer.close();
         } catch (Exception e) {

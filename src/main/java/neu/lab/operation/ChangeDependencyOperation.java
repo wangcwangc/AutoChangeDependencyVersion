@@ -44,8 +44,8 @@ public class ChangeDependencyOperation {
         }
     }
 
-    private boolean hasInCurrentPom(ArtifactNodes artifactNodes) {
-        return dependencyInPom.contains(artifactNodes.getGroupId() + ":" + artifactNodes.getArtifactId());
+    private boolean hasInCurrentPom(DependencyInfo dependencyInfo) {
+        return dependencyInPom.contains(dependencyInfo.getGroupId() + ":" + dependencyInfo.getArtifactId());
     }
 
     private void changeVersion(ArtifactNodes artifactNodes) {
@@ -63,9 +63,14 @@ public class ChangeDependencyOperation {
             if (artifactVersion == null) {
                 break;
             }
-            System.out.println(artifactVersion);
-//            DependencyInfo dependencyInfo = new DependencyInfo(artifactNodes.getGroupId(), artifactNodes.getArtifactId(), artifactVersion);
-//            PomOperation.i().setDependency(dependencyInfo);
+//            System.out.println(artifactVersion);
+            DependencyInfo dependencyInfo = new DependencyInfo(artifactNodes.getGroupId(), artifactNodes.getArtifactId(), artifactVersion);
+            if(hasInCurrentPom(dependencyInfo)){
+                PomOperation.i().updateDependencyVersion(dependencyInfo);
+            }else {
+                PomOperation.i().addDependency(dependencyInfo);
+            }
+
 //            //TODO exec mvn package and mvn test
 //            hasError = ExecuteCommand.test();
             //TODO 记录出错log
