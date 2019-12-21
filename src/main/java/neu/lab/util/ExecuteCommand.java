@@ -1,5 +1,6 @@
 package neu.lab.util;
 
+import neu.lab.vo.DependencyInfo;
 import org.apache.commons.exec.*;
 
 import java.io.*;
@@ -147,10 +148,37 @@ public class ExecuteCommand {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println(outputStream.toString());
         return exitCode == 0;
     }
 
+
+    public static boolean mvnTest(DependencyInfo dependencyInfo) {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        PumpStreamHandler streamHandler = new PumpStreamHandler(outputStream);
+        CommandLine cmdLine = CommandLine.parse("mvn test");
+        DefaultExecutor executor = new DefaultExecutor();
+        int exitCode = -1;
+        try {
+            executor.setStreamHandler(streamHandler);
+            exitCode = executor.execute(cmdLine);
+
+        } catch (IOException e) {
+            //执行出错，不需要报错，需要记录log
+//            e.printStackTrace();
+            try {
+                if (!new File(Config.logPath).exists()) {
+                    new File(Config.logPath).mkdirs();
+                }
+                FileWriter fileWriter = new FileWriter(Config.logPath + dependencyInfo.getLogFileName());
+                fileWriter.write(outputStream.toString());
+                fileWriter.close();
+            } catch (IOException e1) {
+                MavenUtil.i().getLog().error(e.getMessage());
+                return false;
+            }
+        }
+        return exitCode == 0;
+    }
 //    public static void main(String[] args) throws ExecuteException, IOException {
 ////		exeCmd("sh /Users/wangchao/eclipse-workspace/Host/sensor_testcase/test_method/getSize/neu/lab/Host/execute.sh");
 ////        System.out.println(exeBatAndGetResult("sh /Users/wangchao/eclipse-workspace/Host/sensor_testcase/test_method/getSize/neu/lab/Host/execute.sh"));

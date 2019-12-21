@@ -58,9 +58,9 @@ public class ChangeDependencyOperation {
 
     private void change(ArtifactNodes artifactNodes, boolean upgrade) {
 //        boolean jumpMajor = false;
-        boolean hasError = false;
+        boolean successMvn = true;
         String artifactVersion = null;
-        while (!hasError) {
+        while (successMvn) {
 //            artifactVersion = artifactNodes.getNextVersion(artifactVersion, jumpMajor, true);
             artifactVersion = artifactNodes.getNextVersion(artifactVersion, upgrade);
             if (artifactVersion == null) {
@@ -73,10 +73,7 @@ public class ChangeDependencyOperation {
             } else {
                 PomOperation.i().addDependency(dependencyInfo);
             }
-
-//            //TODO exec mvn package and mvn test
-//            hasError = ExecuteCommand.test();
-            //TODO 记录出错log
+            successMvn = ExecuteCommand.mvnTest(dependencyInfo);
         }
     }
 

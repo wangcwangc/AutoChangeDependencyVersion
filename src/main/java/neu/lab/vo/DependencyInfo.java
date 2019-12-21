@@ -51,4 +51,8 @@ public class DependencyInfo {
         dependency.addElement("groupId").setText(groupId);
         dependency.addElement("version").setText(version);
     }
+
+    public String getLogFileName() {
+        return (groupId + artifactId + version).replaceAll("\\p{Punct}", "");
+    }
 }
