@@ -20,7 +20,7 @@ public class ChangeDependencyOperation {
     private Set<String> dependencyInPom = new HashSet<>();
 
     public void executeOperation() {
-        if (!ExecuteCommand.mvn(ExecuteCommand.MVN_COMPILE)) {
+        if (!ExecuteCommand.mvn(ExecuteCommand.MVN_TEST)) {
             return;
         }
         boolean backup = PomOperation.i().backupPom();
@@ -32,7 +32,7 @@ public class ChangeDependencyOperation {
         if (needChangeDependencyList.size() == 0) return;
         for (ArtifactNodes artifactNodes : needChangeDependencyList) {
             changeVersion(artifactNodes);
-            System.out.println(artifactNodes.getGroupId() + artifactNodes.getArtifactId());
+//            System.out.println(artifactNodes.getGroupId() + artifactNodes.getArtifactId());
         }
 
         PomOperation.i().restorePom();
@@ -61,7 +61,6 @@ public class ChangeDependencyOperation {
         boolean successMvn = true;
         String artifactVersion = null;
         while (successMvn) {
-//            artifactVersion = artifactNodes.getNextVersion(artifactVersion, jumpMajor, true);
             artifactVersion = artifactNodes.getNextVersion(artifactVersion, upgrade);
             if (artifactVersion == null) {
                 break;

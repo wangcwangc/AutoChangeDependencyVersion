@@ -11,6 +11,7 @@ public class ExecuteCommand {
 
     public static final String MVN_COMPILE = "mvn compile";
     public static final String MVN_PACKAGE = "mvn package";
+    public static final String MVN_TEST = "mvn test";
 
     public static void exeCmd(String mvnCmd) throws ExecuteException, IOException {
         exeCmd(mvnCmd, 0, null);
@@ -146,7 +147,8 @@ public class ExecuteCommand {
             exitCode = executor.execute(cmdLine);
 
         } catch (IOException e) {
-            e.printStackTrace();
+            MavenUtil.i().getLog().error("this project execute error : " + e.getMessage());
+//            e.printStackTrace();
         }
         return exitCode == 0;
     }
