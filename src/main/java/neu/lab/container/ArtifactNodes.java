@@ -111,36 +111,30 @@ public class ArtifactNodes {
     }
 
     public String getNextVersion(String version, boolean upgrade) {
+        ArtifactVersion nextArtifactVersion = null;
+        if (version == null) {
+            version = currentVersion;
+        }
         if (upgrade) {
-            if (version == null) {
-                return currentVersion;
-            } else {
-                ArtifactVersion nextArtifactVersion = null;
-                try {
-                    nextArtifactVersion = getArtifactVersionByPriority(getArtifactVersionByVersion(version).getPriority() + 1);
-                } catch (Exception e) {
-                    MavenUtil.i().getLog().error(e.getMessage());
-                }
-                if (nextArtifactVersion == null) {
-                    return null;
-                }
-                return nextArtifactVersion.getVersion();
+            try {
+                nextArtifactVersion = getArtifactVersionByPriority(getArtifactVersionByVersion(version).getPriority() + 1);
+            } catch (Exception e) {
+                MavenUtil.i().getLog().error(e.getMessage());
             }
+            if (nextArtifactVersion == null) {
+                return null;
+            }
+            return nextArtifactVersion.getVersion();
         } else {
-            if (version == null) {
-                return currentVersion;
-            } else {
-                ArtifactVersion nextArtifactVersion = null;
-                try {
-                    nextArtifactVersion = getArtifactVersionByPriority(getArtifactVersionByVersion(version).getPriority() - 1);
-                } catch (Exception e) {
-                    MavenUtil.i().getLog().error(e.getMessage());
-                }
-                if (nextArtifactVersion == null) {
-                    return null;
-                }
-                return nextArtifactVersion.getVersion();
+            try {
+                nextArtifactVersion = getArtifactVersionByPriority(getArtifactVersionByVersion(version).getPriority() - 1);
+            } catch (Exception e) {
+                MavenUtil.i().getLog().error(e.getMessage());
             }
+            if (nextArtifactVersion == null) {
+                return null;
+            }
+            return nextArtifactVersion.getVersion();
         }
     }
 
