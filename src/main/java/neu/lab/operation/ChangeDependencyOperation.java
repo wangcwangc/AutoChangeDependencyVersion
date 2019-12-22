@@ -20,6 +20,7 @@ public class ChangeDependencyOperation {
     private Set<String> dependencyInPom = new HashSet<>();
 
     public void executeOperation() {
+        MavenUtil.i().getLog().info("first execute mvn test");
         if (!ExecuteCommand.mvn(ExecuteCommand.MVN_TEST)) {
             return;
         }
@@ -29,12 +30,14 @@ public class ChangeDependencyOperation {
         }
         readPom();
         List<ArtifactNodes> needChangeDependencyList = NodeAdapters.i().getContainer();
-        if (needChangeDependencyList.size() == 0) return;
-        for (ArtifactNodes artifactNodes : needChangeDependencyList) {
-            changeVersion(artifactNodes);
+        if (needChangeDependencyList.size() > 0) {
+            for (ArtifactNodes artifactNodes : needChangeDependencyList) {
+                if (artifactNodes.canChangeVersion()) {
+                    changeVersion(artifactNodes);
+                }
 //            System.out.println(artifactNodes.getGroupId() + artifactNodes.getArtifactId());
+            }
         }
-
         PomOperation.i().deletePomCopy();
     }
 

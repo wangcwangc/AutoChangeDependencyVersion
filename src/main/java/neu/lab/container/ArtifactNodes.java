@@ -17,7 +17,6 @@ public class ArtifactNodes {
     private String groupId;
     private String artifactId;
     private String currentVersion;
-    private int priority;
     private Set<ArtifactVersion> artifactVersions;
 
     public ArtifactNodes(String groupId, String artifactId, String currentVersion) {
@@ -64,14 +63,6 @@ public class ArtifactNodes {
         artifactVersions.add(artifactVersion);
     }
 
-    public int getPriority() {
-        return priority;
-    }
-
-    public void setPriority(int priority) {
-        this.priority = priority;
-    }
-
     private void initArtifactVersionSet() {
         SqlSession sqlSession = MybatisUtil.createSqlSession();
 
@@ -90,14 +81,11 @@ public class ArtifactNodes {
             if (versionList.size() > 0) {
                 int priority = versionList.size();
                 for (String version : versionList) {
-                    if (version.equals(currentVersion)) {
-                        this.priority = priority;
-                    }
                     ArtifactVersion artifactVersion = new ArtifactVersion(version, priority--, mavenArtifact.getId());
                     artifactVersions.add(artifactVersion);
                 }
+                artifactVersionMapper.insertArtifactVersionSet(artifactVersions);
             }
-            artifactVersionMapper.insertArtifactVersionSet(artifactVersions);
             sqlSession.commit();
         } else {
             artifactVersions = artifactVersionMapper.selectAllArtifactVersionByMavenArtifactId(mavenArtifact.getId());
@@ -156,13 +144,17 @@ public class ArtifactNodes {
         return null;
     }
 
+
+    public boolean canChangeVersion() {
+        return artifactVersions.size() > 0;
+    }
+
     @Override
     public String toString() {
         return "ArtifactNodes{" +
                 "groupId='" + groupId + '\'' +
                 ", artifactId='" + artifactId + '\'' +
                 ", currentVersion='" + currentVersion + '\'' +
-                ", priority=" + priority +
                 ", artifactVersions=" + artifactVersions +
                 '}';
     }

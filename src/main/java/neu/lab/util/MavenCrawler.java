@@ -20,9 +20,11 @@ public class MavenCrawler {
         try {
             //暂停一秒，防止被反爬
             Thread.sleep(1000);
+            MavenUtil.i().getLog().info("artifact url : " + artifactUrl);
             html = Jsoup.connect(mavenArtifactUrl + artifactUrl).timeout(5000).get();
         } catch (Exception e) {
             MavenUtil.i().getLog().error("connect error, message : " + e.getMessage());
+            return versionList;
         }
         if (html != null) {
             Elements gridVersions = html.getElementsByClass("grid versions");

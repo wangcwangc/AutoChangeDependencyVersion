@@ -175,6 +175,7 @@ public class ExecuteCommand {
                     new File(thisProjectLogFilePath).mkdirs();
                 }
                 FileWriter fileWriter = new FileWriter(thisProjectLogFilePath + dependencyInfo.getLogFileName());
+                fileWriter.write(dependencyInfo.toString() + "\n");
                 fileWriter.write(outputStream.toString());
                 fileWriter.close();
             } catch (IOException iOException) {

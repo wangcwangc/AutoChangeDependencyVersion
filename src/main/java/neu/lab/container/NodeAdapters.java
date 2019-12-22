@@ -52,6 +52,7 @@ public class NodeAdapters {
                     continue;
                 }
                 if (hasThisArtifactNodes(child)) {
+                    MavenUtil.i().getLog().info(child.getArtifact() + "this artifact nodes has exist");
                     continue;
                 }
                 ArtifactNodes artifactNodes = new ArtifactNodes(child.getArtifact().getGroupId(),

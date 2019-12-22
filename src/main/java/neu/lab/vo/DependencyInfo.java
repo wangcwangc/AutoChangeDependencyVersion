@@ -59,4 +59,13 @@ public class DependencyInfo {
     public String getName() {
         return groupId + ":" + artifactId;
     }
+
+    @Override
+    public String toString() {
+        return "DependencyInfo{" +
+                "groupId='" + groupId + '\'' +
+                ", artifactId='" + artifactId + '\'' +
+                ", version='" + version + '\'' +
+                '}';
+    }
 }
