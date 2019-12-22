@@ -35,35 +35,11 @@ public class ChangeDependencyOperation {
         readPom();
         List<ArtifactNodes> needChangeDependencyList = NodeAdapters.i().getContainer();
         if (needChangeDependencyList.size() > 0) {
-            MavenUtil.i().getLog().info("use thread num: " + Config.nThreads);
-            ExecutorService executor = Executors.newFixedThreadPool(Config.nThreads);
             for (ArtifactNodes artifactNodes : needChangeDependencyList) {
                 if (artifactNodes.canChangeVersion()) {
-                    executor.execute(new Thread(new Runnable() {
-                        /**
-                         * When an object implementing interface <code>Runnable</code> is used
-                         * to create a thread, starting the thread causes the object's
-                         * <code>run</code> method to be called in that separately executing
-                         * thread.
-                         * <p>
-                         * The general contract of the method <code>run</code> is that it may
-                         * take any action whatsoever.
-                         *
-                         * @see Thread#run()
-                         */
-                        @Override
-                        public void run() {
-                            changeVersion(artifactNodes);
-                        }
-                    }));
+                    changeVersion(artifactNodes);
                 }
 //            System.out.println(artifactNodes.getGroupId() + artifactNodes.getArtifactId());
-            }
-            executor.shutdown();
-            try {
-                executor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
             }
         }
         PomOperation.i().deletePomCopy();
