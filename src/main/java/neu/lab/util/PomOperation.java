@@ -21,7 +21,7 @@ public class PomOperation {
 //    public static String COPY_JUNIT = "copyJunit.xml";
 //    public static String COYT_EVOSUITE = "copyEvosuiteRuntime.xml";
     private String POM_PATH = MavenUtil.i().getProjectPom();
-    private String POM_PATH_COPY = MavenUtil.i().getBaseDir().getAbsolutePath() + "/pom-copy.xml";
+    public String POM_PATH_COPY = MavenUtil.i().getBaseDir().getAbsolutePath() + "/pom-copy.xml";
 
     private static PomOperation instance;
 
@@ -53,7 +53,7 @@ public class PomOperation {
             dependencyInfo.addDependencyElement(dependency);
             OutputFormat outputFormat = OutputFormat.createPrettyPrint();
             outputFormat.setEncoding("UTF-8");
-            XMLWriter writer = new XMLWriter(new FileWriter(POM_PATH), outputFormat);
+            XMLWriter writer = new XMLWriter(new FileWriter(POM_PATH_COPY), outputFormat);
             writer.write(document);
             writer.close();
         } catch (Exception e) {
@@ -82,7 +82,7 @@ public class PomOperation {
             }
             OutputFormat outputFormat = OutputFormat.createPrettyPrint();
             outputFormat.setEncoding("UTF-8");
-            XMLWriter writer = new XMLWriter(new FileWriter(POM_PATH), outputFormat);
+            XMLWriter writer = new XMLWriter(new FileWriter(POM_PATH_COPY), outputFormat);
             writer.write(document);
             writer.close();
         } catch (Exception e) {

@@ -157,7 +157,7 @@ public class ExecuteCommand {
     public static boolean mvnTest(DependencyInfo dependencyInfo) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         PumpStreamHandler streamHandler = new PumpStreamHandler(outputStream);
-        CommandLine cmdLine = CommandLine.parse("mvn test");
+        CommandLine cmdLine = CommandLine.parse("mvn test -f " + PomOperation.i().POM_PATH_COPY);
         DefaultExecutor executor = new DefaultExecutor();
         int exitCode = -1;
         try {

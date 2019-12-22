@@ -82,7 +82,7 @@ public class ChangeDependencyOperation {
                 PomOperation.i().addDependency(dependencyInfo);
             }
             successMvn = ExecuteCommand.mvnTest(dependencyInfo);
-            PomOperation.i().restorePom();
+//            PomOperation.i().restorePom();
         }
     }
 
