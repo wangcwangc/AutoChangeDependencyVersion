@@ -161,6 +161,8 @@ public class ArtifactNodes {
         return "ArtifactNodes{" +
                 "groupId='" + groupId + '\'' +
                 ", artifactId='" + artifactId + '\'' +
+                ", currentVersion='" + currentVersion + '\'' +
+                ", priority=" + priority +
                 ", artifactVersions=" + artifactVersions +
                 '}';
     }

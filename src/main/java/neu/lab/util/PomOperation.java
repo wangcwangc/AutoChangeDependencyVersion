@@ -118,7 +118,7 @@ public class PomOperation {
     }
 
     public boolean backupPom() {
-        MavenUtil.i().getLog().info("backup pom.xml");
+        MavenUtil.i().getLog().info("backup pom.xml to pom-copy.xml");
         try {
             Files.copy(new File(POM_PATH).toPath(), new File(POM_PATH_COPY).toPath());
         } catch (IOException e) {

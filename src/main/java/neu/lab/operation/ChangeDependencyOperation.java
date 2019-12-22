@@ -35,7 +35,6 @@ public class ChangeDependencyOperation {
 //            System.out.println(artifactNodes.getGroupId() + artifactNodes.getArtifactId());
         }
 
-        PomOperation.i().restorePom();
         PomOperation.i().deletePomCopy();
     }
 

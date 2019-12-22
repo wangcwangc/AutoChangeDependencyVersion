@@ -37,6 +37,8 @@ public class NodeAdapters {
             ArtifactNodes artifactNodes = new ArtifactNodes(childDirect.getArtifact().getGroupId(),
                     childDirect.getArtifact().getArtifactId(), childDirect.getArtifact().getVersion());
             NodeAdapters.i().addArtifactNodes(artifactNodes);
+        }
+        for (DependencyNode childDirect : root.getChildren()) {
             addIndirectArtifactNodes(childDirect, 2);
         }
         // add management node
@@ -49,9 +51,14 @@ public class NodeAdapters {
                 if (MavenUtil.i().getMojo().ignoreTestScope && "test".equals(child.getArtifact().getScope())) {
                     continue;
                 }
+                if (hasThisArtifactNodes(child)) {
+                    continue;
+                }
                 ArtifactNodes artifactNodes = new ArtifactNodes(child.getArtifact().getGroupId(),
                         child.getArtifact().getArtifactId(), child.getArtifact().getVersion());
                 NodeAdapters.i().addArtifactNodes(artifactNodes);
+            }
+            for (DependencyNode child : dependencyNode.getChildren()) {
                 addIndirectArtifactNodes(child, depth);
             }
         }
@@ -78,6 +85,15 @@ public class NodeAdapters {
             }
         }
         return null;
+    }
+
+    private static boolean hasThisArtifactNodes(DependencyNode dependencyNode) {
+        for (ArtifactNodes artifactNodes : NodeAdapters.i().getContainer()) {
+            if (artifactNodes.isSelf(dependencyNode.getArtifact().getGroupId(), dependencyNode.getArtifact().getArtifactId())) {
+                return true;
+            }
+        }
+        return false;
     }
 //    /**
 //     * 根据node获得对应的adapter
