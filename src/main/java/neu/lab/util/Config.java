@@ -5,4 +5,6 @@ public class Config {
     public static int maxDependencyDepth;
     //log文件夹
     public static String logFilePath = "/Users/wangchao/IdeaProjects/TestAutoChangeDependency/log/";
+    //多线程数
+    public static int nThreads;
 }

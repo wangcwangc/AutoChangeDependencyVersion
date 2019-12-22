@@ -3,6 +3,7 @@ package neu.lab.operation;
 import neu.lab.container.ArtifactNodes;
 import neu.lab.container.NodeAdapters;
 import neu.lab.data.po.ArtifactVersion;
+import neu.lab.util.Config;
 import neu.lab.util.ExecuteCommand;
 import neu.lab.util.MavenUtil;
 import neu.lab.util.PomOperation;
@@ -13,6 +14,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class ChangeDependencyOperation {
     //当前pom中显式声明的dependency
@@ -31,11 +35,35 @@ public class ChangeDependencyOperation {
         readPom();
         List<ArtifactNodes> needChangeDependencyList = NodeAdapters.i().getContainer();
         if (needChangeDependencyList.size() > 0) {
+            MavenUtil.i().getLog().info("use thread num: " + Config.nThreads);
+            ExecutorService executor = Executors.newFixedThreadPool(Config.nThreads);
             for (ArtifactNodes artifactNodes : needChangeDependencyList) {
                 if (artifactNodes.canChangeVersion()) {
-                    changeVersion(artifactNodes);
+                    executor.execute(new Thread(new Runnable() {
+                        /**
+                         * When an object implementing interface <code>Runnable</code> is used
+                         * to create a thread, starting the thread causes the object's
+                         * <code>run</code> method to be called in that separately executing
+                         * thread.
+                         * <p>
+                         * The general contract of the method <code>run</code> is that it may
+                         * take any action whatsoever.
+                         *
+                         * @see Thread#run()
+                         */
+                        @Override
+                        public void run() {
+                            changeVersion(artifactNodes);
+                        }
+                    }));
                 }
 //            System.out.println(artifactNodes.getGroupId() + artifactNodes.getArtifactId());
+            }
+            executor.shutdown();
+            try {
+                executor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
         PomOperation.i().deletePomCopy();
