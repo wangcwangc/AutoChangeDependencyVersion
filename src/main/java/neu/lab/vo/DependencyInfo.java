@@ -55,4 +55,8 @@ public class DependencyInfo {
     public String getLogFileName() {
         return (groupId + artifactId + version).replaceAll("\\p{Punct}", "");
     }
+
+    public String getName() {
+        return groupId + ":" + artifactId;
+    }
 }

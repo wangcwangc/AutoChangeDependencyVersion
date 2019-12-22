@@ -53,7 +53,7 @@ public class PomOperation {
             dependencyInfo.addDependencyElement(dependency);
             OutputFormat outputFormat = OutputFormat.createPrettyPrint();
             outputFormat.setEncoding("UTF-8");
-            XMLWriter writer = new XMLWriter(new FileWriter(MavenUtil.i().getBaseDir().getAbsolutePath() + "/test/" + dependencyInfo.getVersion()), outputFormat);
+            XMLWriter writer = new XMLWriter(new FileWriter(POM_PATH), outputFormat);
             writer.write(document);
             writer.close();
         } catch (Exception e) {
@@ -73,8 +73,8 @@ public class PomOperation {
                 if (dependency.element("groupId").getText().equals(dependencyInfo.getGroupId())
                         && dependency.element("artifactId").getText().equals(dependencyInfo.getArtifactId())) {
                     Element version = dependency.element("version");
-                    if (version==null){
-                        version= dependency.addElement("version");
+                    if (version == null) {
+                        version = dependency.addElement("version");
                     }
                     version.setText(dependencyInfo.getVersion());
                     break;
@@ -82,7 +82,7 @@ public class PomOperation {
             }
             OutputFormat outputFormat = OutputFormat.createPrettyPrint();
             outputFormat.setEncoding("UTF-8");
-            XMLWriter writer = new XMLWriter(new FileWriter(MavenUtil.i().getBaseDir().getAbsolutePath() + "/test/" + dependencyInfo.getVersion()), outputFormat);
+            XMLWriter writer = new XMLWriter(new FileWriter(POM_PATH), outputFormat);
             writer.write(document);
             writer.close();
         } catch (Exception e) {
@@ -130,7 +130,7 @@ public class PomOperation {
         return true;
     }
 
-    public boolean restorePom() {
+    public void restorePom() {
         if (new File(POM_PATH).exists()) {
             new File(POM_PATH).delete();
         }
@@ -139,13 +139,15 @@ public class PomOperation {
         } catch (IOException e) {
             MavenUtil.i().getLog().error("restore pom.xml error");
             MavenUtil.i().getLog().error(e.getMessage());
-            return false;
         }
+        MavenUtil.i().getLog().info("success restore pom.xml");
+    }
+
+    public void deletePomCopy() {
         if (new File(POM_PATH_COPY).exists()) {
             new File(POM_PATH_COPY).delete();
         }
-        MavenUtil.i().getLog().info("success restore");
-        return true;
+        MavenUtil.i().getLog().info("success delete pom-copy.xml");
     }
 //    /**
 //     * copy empty dependency xml to target path

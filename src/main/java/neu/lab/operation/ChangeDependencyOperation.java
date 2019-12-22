@@ -36,6 +36,7 @@ public class ChangeDependencyOperation {
         }
 
         PomOperation.i().restorePom();
+        PomOperation.i().deletePomCopy();
     }
 
     public void readPom() {
@@ -69,10 +70,13 @@ public class ChangeDependencyOperation {
             DependencyInfo dependencyInfo = new DependencyInfo(artifactNodes.getGroupId(), artifactNodes.getArtifactId(), artifactVersion);
             if (hasInCurrentPom(dependencyInfo)) {
                 PomOperation.i().updateDependencyVersion(dependencyInfo);
+                MavenUtil.i().getLog().info("success update dependency version for " + dependencyInfo.getName());
             } else {
+                MavenUtil.i().getLog().info("success add dependency for " + dependencyInfo.getName());
                 PomOperation.i().addDependency(dependencyInfo);
             }
             successMvn = ExecuteCommand.mvnTest(dependencyInfo);
+            PomOperation.i().restorePom();
         }
     }
 
