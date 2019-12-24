@@ -12,4 +12,6 @@ public interface ArtifactVersionDao {
     void insertArtifactVersion(ArtifactVersion ArtifactVersion);
 
     void insertArtifactVersionSet(@Param("set") Set<ArtifactVersion> artifactVersions);
+
+    int isExist(int mavenArtifactId);
 }

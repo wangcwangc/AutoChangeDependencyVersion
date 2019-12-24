@@ -118,6 +118,9 @@ public class PomOperation {
     }
 
     public boolean backupPom() {
+        if (new File(POM_PATH_COPY).exists()) {
+            new File(POM_PATH_COPY).delete();
+        }
         MavenUtil.i().getLog().info("backup pom.xml to pom-copy.xml");
         try {
             Files.copy(new File(POM_PATH).toPath(), new File(POM_PATH_COPY).toPath());

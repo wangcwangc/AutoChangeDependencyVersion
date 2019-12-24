@@ -36,4 +36,9 @@
             )
         </foreach>
     </insert>
+    <select id="isExist" parameterType="INTEGER" resultType="INTEGER">
+        SELECT count(*)
+        FROM artifact_version
+        WHERE mavenArtifactId = #{mavenArtifactId}
+    </select>
 </mapper>

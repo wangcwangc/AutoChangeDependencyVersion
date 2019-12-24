@@ -29,4 +29,11 @@
         maven_artifact(groupId, artifactId)
         VALUES(#{groupId}, #{artifactId})
     </insert>
+
+    <delete id="deleteMavenArtifact">
+        DELETE
+        FROM maven_artifact
+        WHERE groupId = #{arg0}
+        AND artifactId = #{arg1}
+    </delete>
 </mapper>

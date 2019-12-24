@@ -174,7 +174,8 @@ public class ExecuteCommand {
                 if (!new File(thisProjectLogFilePath).exists()) {
                     new File(thisProjectLogFilePath).mkdirs();
                 }
-                FileWriter fileWriter = new FileWriter(thisProjectLogFilePath + dependencyInfo.getLogFileName());
+                FileWriter fileWriter = new FileWriter(thisProjectLogFilePath + dependencyInfo.getLogFileName() + ".txt");
+                fileWriter.write("project : " + MavenUtil.i().getProjectInfo() + "\n");
                 fileWriter.write(dependencyInfo.toString() + "\n");
                 fileWriter.write(outputStream.toString());
                 fileWriter.close();

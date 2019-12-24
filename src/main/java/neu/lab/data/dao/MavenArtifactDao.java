@@ -12,4 +12,6 @@ public interface MavenArtifactDao {
     void insertMavenArtifact(MavenArtifact mavenArtifact);
 
     MavenArtifact selectMavenArtifact(String groupId, String artifactId);
+
+    void deleteMavenArtifact(String groupId, String artifactId);
 }

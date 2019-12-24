@@ -69,7 +69,7 @@ public class ArtifactNodes {
         //创建mapper
         MavenArtifactDao mavenArtifactMapper = sqlSession.getMapper(MavenArtifactDao.class);
         ArtifactVersionDao artifactVersionMapper = sqlSession.getMapper(ArtifactVersionDao.class);
-
+        MavenUtil.i().getLog().info("get maven artifact for : " + groupId + " " + artifactId);
         MavenArtifact mavenArtifact = mavenArtifactMapper.selectMavenArtifact(groupId, artifactId);
 
         if (mavenArtifact == null) {
@@ -85,6 +85,9 @@ public class ArtifactNodes {
                     artifactVersions.add(artifactVersion);
                 }
                 artifactVersionMapper.insertArtifactVersionSet(artifactVersions);
+            } else {
+                MybatisUtil.closeSqlSession(sqlSession);
+                return;
             }
             sqlSession.commit();
         } else {

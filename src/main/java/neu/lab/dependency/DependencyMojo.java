@@ -108,7 +108,7 @@ public abstract class DependencyMojo extends AbstractMojo {
             try {
                 initGlobalVar();
             } catch (Exception e) {
-                throw new MojoExecutionException("project size error!");
+                throw new MojoExecutionException("project size error! : " + e);
             }
             run();
 

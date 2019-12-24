@@ -57,7 +57,7 @@ public class DependencyInfo {
     }
 
     public String getName() {
-        return groupId + ":" + artifactId;
+        return groupId + ":" + artifactId + ":" + version;
     }
 
     @Override
