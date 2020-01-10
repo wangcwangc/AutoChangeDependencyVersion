@@ -10,6 +10,9 @@ import neu.lab.util.PomOperation;
 import neu.lab.vo.DependencyInfo;
 import org.dom4j.Element;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -22,6 +25,8 @@ public class ChangeDependencyOperation {
     //当前pom中显式声明的dependency
 //    private List<DependencyInfo> dependencyInfoList = new ArrayList<>();
     private Set<String> dependencyInPom = new HashSet<>();
+    //write change log to file
+    private StringBuffer stringBuffer = new StringBuffer();
 
     public void executeOperation() {
         MavenUtil.i().getLog().info("first execute mvn test");
@@ -43,6 +48,7 @@ public class ChangeDependencyOperation {
             }
         }
         PomOperation.i().deletePomCopy();
+        writeChangeLogToFile();
     }
 
     public void readPom() {
@@ -59,6 +65,7 @@ public class ChangeDependencyOperation {
     }
 
     private void changeVersion(ArtifactNodes artifactNodes) {
+        stringBuffer.append("start to change verion for " + artifactNodes.getSig());
         changeStopWhenError(artifactNodes, true);
         changeStopWhenError(artifactNodes, false);
     }
@@ -75,6 +82,7 @@ public class ChangeDependencyOperation {
             }
 //            System.out.println(artifactVersion);
             DependencyInfo dependencyInfo = new DependencyInfo(artifactNodes.getGroupId(), artifactNodes.getArtifactId(), artifactVersion);
+            stringBuffer.append("change version from " + artifactNodes.getSig() + " to " + dependencyInfo.getName() + "\n");
             if (hasInCurrentPom(dependencyInfo)) {
                 PomOperation.i().updateDependencyVersion(dependencyInfo);
                 MavenUtil.i().getLog().info("success update dependency version for " + dependencyInfo.getName());
@@ -82,9 +90,9 @@ public class ChangeDependencyOperation {
                 MavenUtil.i().getLog().info("success add dependency for " + dependencyInfo.getName());
                 PomOperation.i().addDependency(dependencyInfo);
             }
-            MavenUtil.i().getLog().info("execute mvn clean");
+            MavenUtil.i().getLog().debug("execute mvn clean");
             ExecuteCommand.mvn(ExecuteCommand.MVN_CLEAN);
-            MavenUtil.i().getLog().info("execute mvn test");
+            MavenUtil.i().getLog().debug("execute mvn test");
             boolean successMvn = ExecuteCommand.mvnTest(dependencyInfo);
             if (!successMvn) {
                 errorExecNum++;
@@ -103,6 +111,7 @@ public class ChangeDependencyOperation {
             }
 //            System.out.println(artifactVersion);
             DependencyInfo dependencyInfo = new DependencyInfo(artifactNodes.getGroupId(), artifactNodes.getArtifactId(), artifactVersion);
+            stringBuffer.append("change version from " + artifactNodes.getSig() + " to " + dependencyInfo.getName() + "\n");
             if (hasInCurrentPom(dependencyInfo)) {
                 PomOperation.i().updateDependencyVersion(dependencyInfo);
                 MavenUtil.i().getLog().info("success update dependency version for " + dependencyInfo.getName());
@@ -110,10 +119,27 @@ public class ChangeDependencyOperation {
                 MavenUtil.i().getLog().info("success add dependency for " + dependencyInfo.getName());
                 PomOperation.i().addDependency(dependencyInfo);
             }
-            MavenUtil.i().getLog().info("execute mvn clean");
+            MavenUtil.i().getLog().debug("execute mvn clean");
             ExecuteCommand.mvn(ExecuteCommand.MVN_CLEAN);
-            MavenUtil.i().getLog().info("execute mvn test");
+            MavenUtil.i().getLog().debug("execute mvn test");
             successMvn = ExecuteCommand.mvnTest(dependencyInfo);
+        }
+    }
+
+    private void writeChangeLogToFile() {
+        String thisProjectLogFilePath = Config.logFilePath
+                + MavenUtil.i().getProjectCor().replaceAll("\\p{Punct}", "")
+                + "/";
+        if (!new File(thisProjectLogFilePath).exists()) {
+            new File(thisProjectLogFilePath).mkdirs();
+        }
+        FileWriter fileWriter = null;
+        try {
+            fileWriter = new FileWriter(thisProjectLogFilePath + "changeLog.txt");
+            fileWriter.write(stringBuffer.toString());
+            fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

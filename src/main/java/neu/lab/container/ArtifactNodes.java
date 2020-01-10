@@ -156,6 +156,10 @@ public class ArtifactNodes {
         return artifactVersions.size() > 0;
     }
 
+    public String getSig() {
+        return groupId + ":" + artifactId + ":" + currentVersion;
+    }
+
     @Override
     public String toString() {
         return "ArtifactNodes{" +
