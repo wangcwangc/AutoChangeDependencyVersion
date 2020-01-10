@@ -24,7 +24,11 @@ public class ArtifactNodes {
         this.artifactId = artifactId;
         this.currentVersion = currentVersion;
         artifactVersions = new LinkedHashSet<>();
-        initArtifactVersionSet();
+        try {
+            initArtifactVersionSet();
+        } catch (Exception e) {
+            MavenUtil.i().getLog().error(e.getMessage());
+        }
     }
 
     public String getGroupId() {

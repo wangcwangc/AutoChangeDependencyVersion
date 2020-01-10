@@ -59,12 +59,38 @@ public class ChangeDependencyOperation {
     }
 
     private void changeVersion(ArtifactNodes artifactNodes) {
-        change(artifactNodes, true);
-        change(artifactNodes, false);
+        changeStopWhenError(artifactNodes, true);
+        changeStopWhenError(artifactNodes, false);
     }
 
-    private void change(ArtifactNodes artifactNodes, boolean upgrade) {
+    private void changeStopWhenError10Times(ArtifactNodes artifactNodes, boolean upgrade) {
 //        boolean jumpMajor = false;
+//        boolean successMvn = true;
+        int errorExecNum = 0;
+        String artifactVersion = null;
+        while (errorExecNum <= 10) {
+            artifactVersion = artifactNodes.getNextVersion(artifactVersion, upgrade);
+            if (artifactVersion == null) {
+                break;
+            }
+//            System.out.println(artifactVersion);
+            DependencyInfo dependencyInfo = new DependencyInfo(artifactNodes.getGroupId(), artifactNodes.getArtifactId(), artifactVersion);
+            if (hasInCurrentPom(dependencyInfo)) {
+                PomOperation.i().updateDependencyVersion(dependencyInfo);
+                MavenUtil.i().getLog().info("success update dependency version for " + dependencyInfo.getName());
+            } else {
+                MavenUtil.i().getLog().info("success add dependency for " + dependencyInfo.getName());
+                PomOperation.i().addDependency(dependencyInfo);
+            }
+            boolean successMvn = ExecuteCommand.mvnTest(dependencyInfo);
+            if (!successMvn) {
+                errorExecNum++;
+            }
+//            PomOperation.i().restorePom();
+        }
+    }
+
+    private void changeStopWhenError(ArtifactNodes artifactNodes, boolean upgrade) {
         boolean successMvn = true;
         String artifactVersion = null;
         while (successMvn) {
@@ -82,8 +108,6 @@ public class ChangeDependencyOperation {
                 PomOperation.i().addDependency(dependencyInfo);
             }
             successMvn = ExecuteCommand.mvnTest(dependencyInfo);
-//            PomOperation.i().restorePom();
         }
     }
-
 }
