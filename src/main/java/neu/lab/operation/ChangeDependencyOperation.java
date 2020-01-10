@@ -82,6 +82,9 @@ public class ChangeDependencyOperation {
                 MavenUtil.i().getLog().info("success add dependency for " + dependencyInfo.getName());
                 PomOperation.i().addDependency(dependencyInfo);
             }
+            MavenUtil.i().getLog().info("execute mvn clean");
+            ExecuteCommand.mvn(ExecuteCommand.MVN_CLEAN);
+            MavenUtil.i().getLog().info("execute mvn test");
             boolean successMvn = ExecuteCommand.mvnTest(dependencyInfo);
             if (!successMvn) {
                 errorExecNum++;
@@ -107,6 +110,9 @@ public class ChangeDependencyOperation {
                 MavenUtil.i().getLog().info("success add dependency for " + dependencyInfo.getName());
                 PomOperation.i().addDependency(dependencyInfo);
             }
+            MavenUtil.i().getLog().info("execute mvn clean");
+            ExecuteCommand.mvn(ExecuteCommand.MVN_CLEAN);
+            MavenUtil.i().getLog().info("execute mvn test");
             successMvn = ExecuteCommand.mvnTest(dependencyInfo);
         }
     }
